@@ -7,6 +7,16 @@
 ### - service_group
 ### - service_type
 
+  - name: Check for wM daemon script
+    stat:
+      path: "{{ webmethods_install_dir }}/common/bin/daemon.sh"
+    register: stat_wmdDaemonFile
+
+  - name: fail if daemon script is not found
+    fail:
+      msg: "Create-Daemon script does not exist...investigate why it does not exist, or use createcustomservice"
+    when: stat_wmdDaemonFile.stat.exists == false
+
   - name: fail if service_name not specified
     fail:
       msg: "service_name not specified...cannot create."
@@ -38,48 +48,56 @@
     debug:
       msg: "Service {{ service_name }} will be created or recreated"
 
-  - name: Check for wM daemon script
-    stat:
-      path: "{{ webmethods_install_dir }}/common/bin/daemon.sh"
-    register: stat_wmdDaemonFile
-
-  - name: Create service using daemon script + specific PID file
-    command:
-      argv:
+  - name: Init the command
+    set_fact:
+      command_to_exec:
         - "{{ webmethods_install_dir }}/common/bin/daemon.sh"
-        - "-f"
-        - "{{ service_exec_filepath }}"
-        - "-u"
-        - "{{ service_user }}"
-        - "-g"
-        - "{{ service_group }}"
-        - "-n"
-        - "{{ service_name }}"
-        - "-T"
-        - "{{ service_type | default('forking',true) }}"
-        - "-P"
-        - "{{ service_pidfile }}"
-    when: stat_wmdDaemonFile.stat.exists and service_pidfile is defined and service_pidfile != ""
 
-  - name: Create service using daemon script with general defaults
+  - name: append service path
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-f' ] + [ '{{ service_exec_filepath }}' ]"
+
+  - name: append service user
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-u' ] + [ '{{ service_user }}' ]"
+
+  - name: append service group
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-g' ] + [ '{{ service_group }}' ]"
+
+  - name: append service name
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-n' ] + [ '{{ service_name }}' ]"
+
+  - name: append service type
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-T' ] + [ '{{ service_type }}' ]"
+    when: service_type is defined and service_type != ""
+
+  - name: append service pid file
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-P' ] + [ '{{ service_pidfile }}' ]"
+    when: service_pidfile is defined and service_pidfile != ""
+
+  - name: append service runlevel_kill
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-K' ] + [ '{{ service_runlevel_kill }}' ]"
+    when: service_runlevel_kill is defined and service_runlevel_kill != ""
+
+  - name: append service runlevel_start
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-S' ] + [ '{{ service_runlevel_start }}' ]"
+    when: service_runlevel_start is defined and service_runlevel_start != ""
+
+  - name: execute command
     command:
-      argv:
-        - "{{ webmethods_install_dir }}/common/bin/daemon.sh"
-        - "-f"
-        - "{{ service_exec_filepath }}"
-        - "-u"
-        - "{{ service_user }}"
-        - "-g"
-        - "{{ service_group }}"
-        - "-n"
-        - "{{ service_name }}"
-        - "-T"
-        - "{{ service_type | default('forking',true) }}"
-        - "-K"
-        - "{{ service_runlevel_kill | default(20,true) }}"
-        - "-S"
-        - "{{ service_runlevel_start | default(20,true) }}"
-    when: stat_wmdDaemonFile.stat.exists and (service_pidfile is not defined or service_pidfile == "")
+      argv: "{{ command_to_exec }}"
+      chdir: "{{ webmethods_install_dir }}"
+    register: cmd_result
+  
+  - name: Print the cmd_result to the console.
+    debug:
+      msg: "{{ cmd_result.stdout_lines | join('\n') }}"
 
   - name: get service facts
     service_facts:
