@@ -12,6 +12,11 @@
         path: "{{ webmethods_script_dir }}/{{ webmethods_script_stop }}"
       register: stat_shutdown
 
+    - name: fail if script not found
+      fail: 
+        msg: "Shutdown script {{ webmethods_script_dir }}/{{ webmethods_script_stop }} does not exist!"
+      when: stat_shutdown.stat.exists == false
+
     - name: run shutdown script
       shell: "{{ webmethods_script_stop }} {{ webmethods_script_stop_params }}"
       args:
@@ -38,6 +43,11 @@
         path: "{{ webmethods_script_dir }}/{{ webmethods_script_start }}"
       register: stat_startup
     
+    - name: fail if script not found
+      fail: 
+        msg: "Shutdown script {{ webmethods_script_dir }}/{{ webmethods_script_start }} does not exist!"
+      when: stat_startup.stat.exists == false
+
     - name: run startup script
       shell: "{{ webmethods_script_start }} {{ webmethods_script_start_params }}"
       args:
