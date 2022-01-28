@@ -34,7 +34,11 @@
   - name: get service facts
     service_facts:
 
-  - name: fail if service is not found
+  - name: fail if service is not found at the end
     fail: 
       msg: "service {{ service_name }} is still not found even though we just created it - operation must have failed."
     when: ansible_facts.services[service_name_index] is not defined
+
+  ## autostart if specified
+  - include_tasks: "command_update.yaml"
+    when: service_autostart|default()|bool
