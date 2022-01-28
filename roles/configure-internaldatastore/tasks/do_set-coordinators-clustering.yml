@@ -34,13 +34,24 @@
 
   - name: Set node role for the coordinator node
     set_fact:
-      ids_node_master: true
-      ids_node_data: "{{ ids_node_data | default(false, true)}}"
-      ids_node_ingest: "{{ ids_node_ingest | default(false, true)}}"
+      ids_cfgs:
+        cluster.name: "{{ ids_cluster_name }}"
+        node.name: "{{ ids_node_name }}"
+        network.host: "{{ ids_network_host }}"
+        transport.tcp.port: "{{ ids_transport_tcp_port }}"
+        http.port: "{{ ids_http_port }}"
+        path.data: "{{ ids_path_data }}"
+        path.logs: "{{ ids_path_logs }}"
+        path.repo: "{{ ids_path_archives }}"
+        discovery.seed_hosts: "{{ ids_discovery_seed_hosts }}"
+        cluster.initial_master_nodes: "{{ ids_cluster_initial_master_nodes }}"
+        node.master: true
+        node.data: "{{ ids_node_data | default(false, true)}}"
+        node.ingest: "{{ ids_node_ingest | default(false, true)}}"
 
   - name: Write the config for a InternalDataStore cluster
     template:
-      src: "elasticsearch_coordinator.yml.j2" 
+      src: "{{ ids_cfgs | to_nice_yaml( width=50, explicit_start=True, explicit_end=True) }}" 
       dest: "{{ ids_install_elasticsearch_file }}"
       backup: yes
       owner: "{{ webmethods_user }}"
@@ -52,6 +63,4 @@
       output_inventory_hosts: []
       ids_discovery_seed_hosts: []
       ids_cluster_initial_master_nodes: []
-      ids_node_master: ""
-      ids_node_data: ""
-      ids_node_ingest: ""
+      ids_cfgs: {}
