@@ -1,0 +1,28 @@
+---
+
+- debug: var=configs_action verbosity=1
+- debug:
+    msg: "Calling configure-jvm-wrapper with action {{ configs_action | default('undefined') }}"
+
+- name: fail if configs_action not specified
+  fail: 
+    msg: "configs_action not specified...cannot do anything."
+  when: configs_action is not defined or configs_action == ""
+
+- name: fail if custom_wrapper_file not specified
+  fail: 
+    msg: "custom_wrapper_file not specified...cannot do anything."
+  when: custom_wrapper_file is not defined or custom_wrapper_file == ""
+
+- name: Check if custom_wrapper_file exists
+  stat:
+    path: "{{ custom_wrapper_file }}"
+  register: stat_file
+
+- name: fail if script not found
+  fail:
+    msg: "File {{ custom_wrapper_file }} does not exist...cannot do anything!"
+  when: stat_file.stat.exists == false
+
+- name: Include tasks
+  include_tasks: "do_{{ configs_action }}.yml"
