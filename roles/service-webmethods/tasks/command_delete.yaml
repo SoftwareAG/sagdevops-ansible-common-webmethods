@@ -1,0 +1,71 @@
+---
+
+### Needs:
+### - service_name
+
+# systemctl stop [servicename]
+# systemctl disable [servicename]
+# rm /etc/systemd/system/[servicename]
+# rm /etc/systemd/system/[servicename] # and symlinks that might be related
+# rm /usr/lib/systemd/system/[servicename] 
+# rm /usr/lib/systemd/system/[servicename] # and symlinks that might be related
+# systemctl daemon-reload
+# systemctl reset-failed
+
+
+- name: fail if service_name not specified
+  fail: 
+    msg: "service_name not specified...cannot create."
+  when: service_name is not defined or service_name == ""
+
+- name: get service facts
+  service_facts:
+
+- name: Format service name to {{ service_name }}.service for service_facts lookup
+  set_fact:
+    service_name_index: "{{ service_name }}.service"
+
+- name: fail if service is not found
+  fail: 
+    msg: "service {{ service_name }} not found..."
+  when: fail_service_notfound|bool and ansible_facts.services[service_name_index] is not defined
+
+- name: Print debug message
+  debug:
+    msg: "Service {{ service_name }} will be delete"
+
+- name: Stop and disable service state
+  ansible.builtin.systemd: 
+    name: "{{ service_name }}"
+    state: "stopped"
+    enabled: no
+
+- name: First, delete the target folder if it exists and we are installing
+  file:
+    path: "{{ systemd_file_delete }}"
+    state: absent
+  with_items:
+    - "/etc/systemd/system/{{ service_name }}"
+    - "/usr/lib/systemd/system/{{ service_name }}"
+  loop_control:
+    loop_var: systemd_file_delete
+
+- name: force systemd to reread configs
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: final systemd reset failed
+  shell: "systemctl reset-failed"
+
+# finally, fail if service found
+- name: get service facts
+  service_facts:
+
+- name: Format service name to {{ service_name }}.service for service_facts lookup
+  set_fact:
+    service_name_index: "{{ service_name }}.service"
+
+- name: fail if service is found
+  fail: 
+    msg: "service {{ service_name }} still found...should not be...investigate!"
+  when: ansible_facts.services[service_name_index] is defined

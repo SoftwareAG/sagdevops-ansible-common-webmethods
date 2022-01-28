@@ -22,11 +22,11 @@
       dest: /usr/lib/systemd/system/{{ service_name }}.service
 
   - name: force systemd to reread configs after modification
-    systemd: 
+    ansible.builtin.systemd: 
       daemon_reload: yes
 
   - name: enable service to start at server startup
-    systemd:
+    ansible.builtin.systemd:
       name: "{{ service_name }}"
       enabled: yes
       masked: no

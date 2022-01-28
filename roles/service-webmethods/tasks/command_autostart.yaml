@@ -25,7 +25,7 @@
     msg: "Service {{ service_name }} will be set to autostart={{ product_service_autostart | default() | bool }}"
 
 - name: disable/enable service to start at server startup
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ service_name }}"
     enabled: "{{ product_service_autostart | default() | bool }}"
     masked: no

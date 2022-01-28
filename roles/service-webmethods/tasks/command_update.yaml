@@ -70,6 +70,6 @@
         when: unit_params is not defined or unit_params.keys()|length == 0
 
       - name: force systemd to reread configs after modification
-        systemd: daemon_reload=yes
+        ansible.builtin.systemd: daemon_reload=yes
         
     when: ansible_facts.services[service_name_index] is defined and ansible_facts.services[service_name_index].source == "systemd"
