@@ -56,16 +56,3 @@
 
 - name: final systemd reset failed
   shell: "systemctl reset-failed"
-
-# finally, fail if service found
-- name: get service facts
-  service_facts:
-
-- name: Format service name to {{ service_name }}.service for service_facts lookup
-  set_fact:
-    service_name_index: "{{ service_name }}.service"
-
-- name: fail if service is found
-  fail: 
-    msg: "service {{ service_name }} still found...should not be...investigate!"
-  when: ansible_facts.services[service_name_index] is defined
