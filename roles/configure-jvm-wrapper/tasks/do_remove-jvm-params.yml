@@ -7,8 +7,3 @@
       state: absent
     with_items: "{{ jvm_params_regex_patterns }}"
     when: jvm_params_regex_patterns is defined and (jvm_params_regex_patterns|length > 0)
-
-  - name: cleanup facts
-    set_fact:
-      rvar_wrapper_file: ""
-      jvm_params_regex_patterns: []
