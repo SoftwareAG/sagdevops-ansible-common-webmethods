@@ -1,9 +1,14 @@
 ---
 
-  - name: "Update config file {{ custom_wrapper_file }} with jvm_params params to remove"
+  - name: "Update config file {{ rvar_wrapper_file }} with jvm_params params to remove"
     lineinfile:
-      path: "{{ custom_wrapper_file }}"
+      path: "{{ rvar_wrapper_file }}"
       regexp: "{{ item }}"
       state: absent
     with_items: "{{ jvm_params_regex_patterns }}"
     when: jvm_params_regex_patterns is defined and (jvm_params_regex_patterns|length > 0)
+
+  - name: cleanup facts
+    set_fact:
+      rvar_wrapper_file: ""
+      jvm_params_regex_patterns: []
