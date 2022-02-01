@@ -3,7 +3,9 @@
   - name: "Update config file {{ rvar_wrapper_file }} with jvm_params params to remove"
     lineinfile:
       path: "{{ rvar_wrapper_file }}"
-      regexp: "{{ item }}"
-      state: absent
+      regexp: "(?i)^(.*{{ item }}.*)$"
+      line: '# \1'
+      backrefs: yes
+      state: present
     with_items: "{{ jvm_params_regex_patterns }}"
     when: jvm_params_regex_patterns is defined and (jvm_params_regex_patterns|length > 0)
