@@ -20,10 +20,9 @@
     msg: "service {{ service_name }} not found..."
   when: ignore_service_notfound|default()|bool == false and ansible_facts.services[service_name_index] is not defined
 
-- name: Print debug message
-  debug:
-    msg: "Service {{ service_name }} is not found...no need to delete"
-  when: ansible_facts.services[service_name_index] is not defined
+- debug:
+    msg: "Service {{ service_name }} is not found...ignoring"
+  when: ignore_service_notfound|default()|bool and ansible_facts.services[service_name_index] is not defined
 
 - name: delete if service is found
   block:

@@ -17,6 +17,10 @@
         msg: "Shutdown script {{ webmethods_script_dir }}/{{ webmethods_script_stop }} does not exist!"
       when: ignore_script_notfound|default()|bool == false and stat_shutdown.stat.exists == false
 
+    - debug:
+        msg: "Shutdown script {{ webmethods_script_dir }}/{{ webmethods_script_stop }} is not found...ignoring"
+      when: ignore_script_notfound|default()|bool and stat_shutdown.stat.exists == false
+
     - name: Perform action if script exists
       block:
         - name: run shutdown script
@@ -49,7 +53,11 @@
       fail: 
         msg: "Startup script {{ webmethods_script_dir }}/{{ webmethods_script_start }} does not exist!"
       when: ignore_script_notfound|default()|bool == false and stat_startup.stat.exists == false
-    
+
+    - debug:
+        msg: "Startup script {{ webmethods_script_dir }}/{{ webmethods_script_start }} is not found...ignoring"
+      when: ignore_script_notfound|default()|bool and stat_startup.stat.exists == false
+
     - name: Perform action if script exists
       block:
         - name: run startup script
