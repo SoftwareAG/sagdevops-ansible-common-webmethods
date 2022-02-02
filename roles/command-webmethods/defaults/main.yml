@@ -11,4 +11,4 @@ webmethods_script_stop:
 webmethods_script_stop_params:
 webmethods_command_envs: {}
 
-fail_script_notfound: true
+ignore_script_notfound: false

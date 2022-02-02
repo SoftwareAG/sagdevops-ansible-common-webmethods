@@ -15,7 +15,7 @@
     - name: fail if script not found
       fail: 
         msg: "Shutdown script {{ webmethods_script_dir }}/{{ webmethods_script_stop }} does not exist!"
-      when: fail_script_notfound|bool and stat_shutdown.stat.exists == false
+      when: ignore_script_notfound|default()|bool == false and stat_shutdown.stat.exists == false
 
     - name: Perform action if script exists
       block:
@@ -48,7 +48,7 @@
     - name: fail if script not found
       fail: 
         msg: "Startup script {{ webmethods_script_dir }}/{{ webmethods_script_start }} does not exist!"
-      when: fail_script_notfound|bool and stat_startup.stat.exists == false
+      when: ignore_script_notfound|default()|bool == false and stat_startup.stat.exists == false
     
     - name: Perform action if script exists
       block:

@@ -18,12 +18,16 @@
 - name: fail if service is not found
   fail: 
     msg: "service {{ service_name }} not found..."
-  when: fail_service_notfound|bool and ansible_facts.services[service_name_index] is not defined
+  when: ignore_service_notfound|default()|bool == false and ansible_facts.services[service_name_index] is not defined
+
+- name: Perform action if service exists
+  block:
   
-- name: Update service state
-  ansible.builtin.service: 
-    name: "{{ service_name }}"
-    state: "stopped"
-    enabled: true
-  environment: "{{ service_envs }}"
+    - name: Update service state
+      ansible.builtin.service: 
+        name: "{{ service_name }}"
+        state: "stopped"
+        enabled: true
+      environment: "{{ service_envs }}"
+    
   when: ansible_facts.services[service_name_index] is defined

@@ -9,7 +9,7 @@ service_type: forking
 service_envs: {}
 force_create: false
 
-fail_service_notfound: true
+ignore_service_notfound: false
 
 product_name:
 product_version_full:

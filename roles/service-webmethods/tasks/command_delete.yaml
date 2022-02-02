@@ -15,6 +15,11 @@
   set_fact:
     service_name_index: "{{ service_name }}.service"
 
+- name: fail if service is not found
+  fail: 
+    msg: "service {{ service_name }} not found..."
+  when: ignore_service_notfound|default()|bool == false and ansible_facts.services[service_name_index] is not defined
+
 - name: Print debug message
   debug:
     msg: "Service {{ service_name }} is not found...no need to delete"
