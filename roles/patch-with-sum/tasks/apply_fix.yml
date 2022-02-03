@@ -1,0 +1,50 @@
+---
+
+- debug: var=rvar_sum_patching_descriptor verbosity=3
+
+- name: fail if mandatory params not specified
+  fail:
+    msg: "A mandatory param was not defined, cannot do anything."
+  when: item is not defined
+  with_items:
+    - "{{ rvar_sum_patching_descriptor.target_install_dir }}"
+    - "{{ rvar_sum_patching_descriptor.sum_home_dir }}"
+    - "{{ rvar_sum_patching_descriptor.script_path }}"
+    - "{{ rvar_sum_patching_descriptor.binaries_image_path }}"
+
+- name: Copy file to a working runtime copy
+  copy:
+    src: "{{ rvar_sum_patching_descriptor.script_path }}"
+    dest: "{{ rvar_sum_patching_descriptor.script_path }}.runtime"
+    mode: '0644'
+    remote_src: yes
+
+- name: Update the script file with values from the variables
+  replace:
+    path: "{{ rvar_sum_patching_descriptor.script_path }}.runtime"
+    backup: no
+    regexp: "{{ ['{{', item.key , '}}'] | join('[ ]*') }}"
+    replace: "{{ item.value }}"
+  with_dict:
+    __sum_fix_target_path: "{{ rvar_sum_patching_descriptor.target_install_dir }}"
+    __sum_fix_image_path: "{{ rvar_sum_patching_descriptor.binaries_image_path }}"
+
+- name: Slurp runtime file for debug printing
+  slurp:
+    src: "{{ rvar_sum_patching_descriptor.script_path }}.runtime"
+  register: runtime_file
+
+- debug: msg="{{ runtime_file['content'] | b64decode }}"
+
+- name: run the sum patching operation
+  include_tasks: "run_sum_patch.yml"
+
+- name: Clean repo after succesfull install
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - "{{ rvar_sum_patching_descriptor.script_path }}"
+    - "{{ rvar_sum_patching_descriptor.script_path }}.runtime"
+    - "{{ rvar_sum_patching_descriptor.binaries_image_path }}"
+  when: rvar_sum_patching_descriptor.clean_after_install | default() | bool

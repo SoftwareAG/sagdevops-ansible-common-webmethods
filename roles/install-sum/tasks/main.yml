@@ -36,6 +36,15 @@
       - name: run the install
         include_tasks: "run_install.yml"
 
+      - name: Clean after succesfull install
+        file:
+          state: absent
+          path: "{{ item }}"
+        with_items:
+          - "{{ rvar_install_sum_descriptor.installer_path }}"
+          - "{{ rvar_install_sum_descriptor.binaries_image_path }}"
+        when: rvar_install_sum_descriptor.clean_after_install | default() | bool
+
       - name: Set changed flag to true
         set_fact:
           rout_install_sum_changed: true

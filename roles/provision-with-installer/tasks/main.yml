@@ -1,13 +1,8 @@
 ---
 
-- name: Print the params
-  debug:
-    msg: "Running provision-with-installer with action {{ provision_action | default('undefined') }}"
+- debug: var=rvar_install_products_descriptor_list verbosity=3
 
-- name: fail if provision_action not specified
-  fail: 
-    msg: "provision_action not specified...cannot do anything."
-  when: provision_action is not defined or provision_action == ""
-
-- name: "Include tasks in command_{{ provision_action }}.yml"
-  include_tasks: "command_{{ provision_action }}.yml"
+- include_tasks: "install.yml"
+  with_items: "{{ rvar_install_products_descriptor_list }}"
+  loop_control:
+    loop_var: rvar_install_products_descriptor

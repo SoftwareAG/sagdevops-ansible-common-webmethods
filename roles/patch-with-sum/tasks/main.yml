@@ -1,0 +1,9 @@
+---
+
+- debug: var=rvar_sum_patching_descriptor_list verbosity=3
+
+- name: apply a single fix
+  include_tasks: "apply_fix.yml"
+  with_items: "{{ rvar_sum_patching_descriptor_list }}"
+  loop_control:
+    loop_var: rvar_sum_patching_descriptor

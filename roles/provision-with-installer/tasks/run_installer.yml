@@ -1,24 +1,13 @@
 ---
 
-  - debug: var=webmethods_installer_runner verbosity=3
-  
-  - name: fail if mandatory params not specified
-    fail: 
-      msg: "A mandatory param was not defined, cannot do anything."
-    when: item is not defined
-    with_items:
-      - "{{ webmethods_installer_runner.executable }}"
-      - "{{ webmethods_installer_runner.execute_dir }}"
-      - "{{ webmethods_installer_runner.script_path }}"
-
   - name: Create the command
     set_fact:
       command_to_exec:
-        - "{{ webmethods_installer_runner.executable }}"
+        - "{{ rvar_install_products_descriptor.installer_path }}"
         - "-scriptErrorInteract"
         - "no"
         - "-readScript"
-        - "{{ webmethods_installer_runner.script_path }}"
+        - "{{ rvar_install_products_descriptor.script_path }}.runtime"
 
   - name: Print the command that we're going to run
     debug:
@@ -27,7 +16,7 @@
   - name: execute command
     command:
       argv: "{{ command_to_exec }}"
-      chdir: "{{ webmethods_installer_runner.execute_dir }}"
+      chdir: "{{ rvar_install_products_descriptor.installer_path | dirname }}"
     async: "{{ rvar_install_async_timeout }}"
     poll: "{{ rvar_install_async_poll }}"
     register: cmd_sleeper
