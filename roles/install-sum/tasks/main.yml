@@ -1,0 +1,44 @@
+---
+
+  - debug: var=rvar_install_sum_descriptor verbosity=3
+
+  - name: fail if mandatory params not specified
+    fail: 
+      msg: "A mandatory param was not defined, cannot do anything."
+    when: item is not defined
+    with_items:
+      - "{{ rvar_install_sum_descriptor }}"
+      - "{{ rvar_install_sum_descriptor.target_install_dir }}"
+      - "{{ rvar_install_sum_descriptor.installer_path }}"
+      - "{{ rvar_install_sum_descriptor.binaries_image_path }}"
+
+  - name: Set changed flag to false if not defined
+    set_fact: 
+      rout_install_sum_changed: false
+    when: rout_install_sum_changed is not defined
+
+  - name: check if sum already installed
+    stat: 
+      path: "{{ rvar_install_sum_descriptor.target_install_dir }}/bin/SUMlauncher.jar"
+    register: sum_installed
+
+  - debug:
+      msg: "SUM is already installed...doing nothing"
+    when: sum_installed.stat.exists
+
+  - name: Install SUM only if it's not already there
+    block:
+
+      - debug:
+          msg: "SUM is already installed...but we are re-installing it now"
+        when: sum_installed.stat.exists
+
+      - name: run the install
+        include_tasks: "run_install.yml"
+
+      - name: Set changed flag to true
+        set_fact:
+          rout_install_sum_changed: true
+  
+    when: sum_installed.stat.exists == false or rvar_install_sum_descriptor.force_install | default() | bool
+

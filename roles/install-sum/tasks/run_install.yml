@@ -1,0 +1,40 @@
+---
+
+  - debug: var=rvar_install_sum_descriptor verbosity=3
+
+  - name: Create the command
+    set_fact:
+      command_to_exec:
+        - "{{ rvar_install_sum_descriptor.installer_path }}"
+        - "--accept-license"
+        - "-d"
+        - "{{ rvar_install_sum_descriptor.target_install_dir }}"
+
+  - name: append image param if defined
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + [ '-i' ] + [ '{{ rvar_install_sum_descriptor.binaries_image_path }}' ]"
+    when: rvar_install_sum_descriptor.binaries_image_path is defined and rvar_install_sum_descriptor.binaries_image_path != ""
+
+  - name: Print the command that we're going to run
+    debug:
+      msg: "About to run: {{ command_to_exec|join(' ') }}"
+
+  - name: execute command
+    command:
+      argv: "{{ command_to_exec }}"
+      chdir: "{{ rvar_install_sum_descriptor.installer_path | dirname }}"
+    async: "{{ rvar_install_async_timeout }}"
+    poll: "{{ rvar_install_async_poll }}"
+    register: cmd_sleeper
+
+  - name: Check status for the sum install task
+    async_status:
+      jid: "{{ cmd_sleeper.ansible_job_id }}"
+    register: job_result
+    until: job_result.finished
+    retries: "{{ rvar_install_async_retries }}"
+    delay: "{{ rvar_install_async_delay }}"
+  
+  - name: Print the job_result to the console.
+    debug:
+      msg: "{{ job_result | join('\n') }}"
