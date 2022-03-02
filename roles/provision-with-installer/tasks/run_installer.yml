@@ -1,0 +1,34 @@
+---
+
+  - name: Create the command
+    set_fact:
+      command_to_exec:
+        - "{{ rvar_install_products_descriptor.installer_path }}"
+        - "-scriptErrorInteract"
+        - "no"
+        - "-readScript"
+        - "{{ rvar_install_products_descriptor.script_path }}.runtime"
+
+  - name: Print the command that we're going to run
+    debug:
+      msg: "About to run: {{ command_to_exec|join(' ') }}"
+
+  - name: execute command
+    command:
+      argv: "{{ command_to_exec }}"
+      chdir: "{{ rvar_install_products_descriptor.installer_path | dirname }}"
+    async: "{{ rvar_install_async_timeout }}"
+    poll: "{{ rvar_install_async_poll }}"
+    register: cmd_sleeper
+
+  - name: Check status for the install task
+    async_status:
+      jid: "{{ cmd_sleeper.ansible_job_id }}"
+    register: job_result
+    until: job_result.finished
+    retries: "{{ rvar_install_async_retries }}"
+    delay: "{{ rvar_install_async_delay }}"
+
+  - name: Print the job_result to the console.
+    debug:
+      msg: "{{ job_result.stdout_lines | join('\n') }}"

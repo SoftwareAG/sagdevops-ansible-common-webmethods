@@ -1,15 +1,14 @@
 ---
 
 ## main descriptor variable schema
-rvar_install_products_descriptor_list: []
+rvar_sum_patching_descriptor_list: []
   # - target_install_dir:
-  #   installer_path:
+  #   sum_home_dir:
   #   script_path:
   #   binaries_image_path:
-  #   clean_after_install: false
-  #   licenses:
-  #     - "LicensePath.1"
-  #     - "LicensePath.2"
+  #   fixes_overinstall: false
+  #   sum_selfupdate: false
+  #   clean_after_install: true
     
 ## async settings for the install command
 rvar_install_async_retries: 240
