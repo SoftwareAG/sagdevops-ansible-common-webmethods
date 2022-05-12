@@ -7,5 +7,5 @@
       line: '# \1'
       backrefs: yes
       state: present
-    with_items: "{{ jvm_params_regex_patterns }}"
-    when: jvm_params_regex_patterns is defined and (jvm_params_regex_patterns|length > 0)
+    with_items: "{{ rvar_jvm_params_regex_patterns }}"
+    when: rvar_jvm_params_regex_patterns is defined and (rvar_jvm_params_regex_patterns|length > 0)
