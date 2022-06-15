@@ -12,6 +12,17 @@
     - "{{ rvar_sum_patching_descriptor.script_path }}"
     - "{{ rvar_sum_patching_descriptor.binaries_image_path }}"
 
+- name: Check if runtime script is there already
+  stat:
+    path: "{{ rvar_sum_patching_descriptor.script_path }}.runtime"
+  register: stat_script_runtime
+
+- name:  delete the runtime script if it is there already
+  file:
+    path: "{{ rvar_sum_patching_descriptor.script_path }}.runtime"
+    state: absent
+  when: stat_script_runtime.stat.exists
+
 - name: Copy file to a working runtime copy
   copy:
     src: "{{ rvar_sum_patching_descriptor.script_path }}"

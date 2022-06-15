@@ -15,13 +15,13 @@
 - name: Check if runtime script is there already
   stat:
     path: "{{ rvar_install_products_descriptor.script_path }}.runtime"
-  register: stat_install_runtime
+  register: stat_script_runtime
 
 - name:  delete the runtime script if it is there already
   file:
     path: "{{ rvar_install_products_descriptor.script_path }}.runtime"
     state: absent
-  when: stat_install_runtime.stat.exists
+  when: stat_script_runtime.stat.exists
 
 - name: Copy script file to a working runtime copy
   copy:
