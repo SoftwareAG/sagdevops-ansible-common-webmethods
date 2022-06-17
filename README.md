@@ -1,6 +1,10 @@
 # sagdevops-ansible-common-webmethods
 A group of ansible common webmethods roles
 
+**Note:**
+For a sample Infrastructure-as-Code (IaC) project that leverages these roles, head on over to [webmethods-ansible-api-gateway](https://github.com/softwareag-government-solutions/webmethods-ansible-api-gateway), maintained by [SoftwareAG Government Solutions's](https://www.softwareaggov.com)
+
+
 # Authors
 
 Fabien Sanglier
