@@ -1,0 +1,6 @@
+
+TODO:
+
+./server-stat.sh -f ../wrapper/conf/tc-config.xml
+
+verify active / passive
