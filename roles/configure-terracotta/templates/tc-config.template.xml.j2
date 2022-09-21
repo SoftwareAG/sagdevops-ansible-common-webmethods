@@ -11,17 +11,17 @@
     <servers>
         {% for tc_ip in tc_ips %}
         <server host="{{ tc_ip }}" name="{{ tc_hostnames[loop.index0] }}">
-            <data>{{ tc_common_data_path }}</data>
-            <logs>{{ tc_common_logs_path }}</logs>
-            <index>{{ tc_common_index_path }}</index>
-            <data-backup>{{ tc_common_data_backup_path }}</data-backup>
-            <tsa-port>{{ tc_common_tsa_port }}</tsa-port>
-            <jmx-port>{{ tc_common_jmx_port }}</jmx-port>
-            <tsa-group-port>{{ tc_common_tsa_group_port }}</tsa-group-port>
-            <management-port>{{ tc_common_management_port }}</management-port>
-            <dataStorage size="{{ tc_common_datastorage_size }}">
-                <offheap size="{{ tc_common_offheap_size }}" />
-                {% if tc_common_hybrid_enabled %}
+            <data>{{ rvar_tc_common_data_path }}</data>
+            <logs>{{ rvar_tc_common_logs_path }}</logs>
+            <index>{{ rvar_tc_common_index_path }}</index>
+            <data-backup>{{ rvar_tc_common_data_backup_path }}</data-backup>
+            <tsa-port>{{ rvar_tc_common_tsa_port }}</tsa-port>
+            <jmx-port>{{ rvar_tc_common_jmx_port }}</jmx-port>
+            <tsa-group-port>{{ rvar_tc_common_tsa_group_port }}</tsa-group-port>
+            <management-port>{{ rvar_tc_common_management_port }}</management-port>
+            <dataStorage size="{{ rvar_tc_common_datastorage_size }}">
+                <offheap size="{{ rvar_tc_common_offheap_size }}" />
+                {% if rvar_tc_common_hybrid_enabled %}
                 <hybrid />
                 {% endif %}
             </dataStorage>
@@ -33,9 +33,9 @@
         <garbage-collection>
             <enabled>true</enabled>
             <verbose>false</verbose>
-            <interval>{{ tc_common_garbage_collection }}</interval>
+            <interval>{{ rvar_tc_common_garbage_collection }}</interval>
         </garbage-collection>
-        <restartable enabled="{{ tc_common_restartable_enabled | bool | lower }}"/>
+        <restartable enabled="{{ rvar_tc_common_restartable_enabled | bool | lower }}"/>
         <client-reconnect-window>120</client-reconnect-window>
     </servers>
     <clients>

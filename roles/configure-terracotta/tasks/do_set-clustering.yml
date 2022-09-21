@@ -4,7 +4,7 @@
   - import_role: 
       name: get-inventory-hosts
     vars:
-      inventory_pattern: "{{ tc_inventory_pattern }}"
+      inventory_pattern: "{{ rvar_tc_inventory_pattern }}"
       inventory_action: second_level_lookup
       inventory_hosts_property: ansible_default_ipv4
       inventory_hosts_property_2ndlevel: address
@@ -17,7 +17,7 @@
   - import_role: 
       name: get-inventory-hosts
     vars:
-      inventory_pattern: "{{ tc_inventory_pattern }}"
+      inventory_pattern: "{{ rvar_tc_inventory_pattern }}"
       inventory_action: first_level_lookup
       inventory_hosts_property: "ansible_fqdn"
 
@@ -28,7 +28,7 @@
   - name: Write the config for a X-node terracotta cluster
     template:
       src: "tc-config.template.xml.j2" 
-      dest: "{{ tc_config_file }}"
+      dest: "{{ _tc_config_file }}"
       backup: yes
       owner: "{{ webmethods_user }}"
       group: "{{ webmethods_group }}"
