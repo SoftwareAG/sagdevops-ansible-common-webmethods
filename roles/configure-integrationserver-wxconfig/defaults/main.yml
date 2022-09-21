@@ -2,14 +2,14 @@
 
 ## Config files
 product_instance_name: "default"
-profile_instance_home: "{{ webmethods_install_dir }}/profiles/IS_{{ product_instance_name }}"
-runtime_instance_home: "{{ webmethods_install_dir }}/IntegrationServer/instances/{{ product_instance_name }}"
-runtime_instance_configs_home: "{{ runtime_instance_home }}/config"
-runtime_instance_package_home: "{{ runtime_instance_home }}/packages"
-wxconfig_configs_dir: "{{ runtime_instance_configs_home }}/WxConfig"
-wxconfig_target_package_path: "{{ runtime_instance_package_home }}/{{ rvar_wxconfig_target_package_name }}"
-wxconfig_target_package_config_path: "{{ wxconfig_target_package_path }}/config"
-wxconfig_encrypted_values_dir: "{{ wxconfig_configs_dir }}/EncryptedValues"
+_profile_instance_home: "{{ webmethods_install_dir }}/profiles/IS_{{ product_instance_name }}"
+_runtime_instance_home: "{{ webmethods_install_dir }}/IntegrationServer/instances/{{ product_instance_name }}"
+_runtime_instance_configs_home: "{{ _runtime_instance_home }}/config"
+_runtime_instance_package_home: "{{ _runtime_instance_home }}/packages"
+_wxconfig_configs_dir: "{{ _runtime_instance_configs_home }}/WxConfig"
+_wxconfig_target_package_path: "{{ _runtime_instance_package_home }}/{{ rvar_wxconfig_target_package_name }}"
+_wxconfig_target_package_config_path: "{{ _wxconfig_target_package_path }}/config"
+_wxconfig_encrypted_values_dir: "{{ _wxconfig_configs_dir }}/EncryptedValues"
 
 ## group name represent the distinct ID for all the wxconfig files
 rvar_wxconfig_unique_groupname:

@@ -22,7 +22,7 @@
 
       - name: Check if main wxconfig controller file is there already
         stat: 
-          path: "{{ wxconfig_target_package_config_path }}/wxconfig.cnf"
+          path: "{{ _wxconfig_target_package_config_path }}/wxconfig.cnf"
         register: stat_wxconfig_enabled
 
       - name: fail if wxconfig is not enabled via the controller file
@@ -33,12 +33,12 @@
       - name: Populate wxconfig file if the rvar_wxconfig_extended_settings_list is defined and non empty
         template:
           src: as-extendedSettings-template.xml
-          dest: "{{ wxconfig_target_package_config_path }}/wxconfigs-extendedSettings-{{ rvar_wxconfig_unique_groupname | lower }}.xml"
+          dest: "{{ _wxconfig_target_package_config_path }}/wxconfigs-extendedSettings-{{ rvar_wxconfig_unique_groupname | lower }}.xml"
         register: "result_wxconfig_content_operation"
 
       - name: Enable this new config in the main controller file
         lineinfile:
-          path: "{{ wxconfig_target_package_config_path }}/wxconfig.cnf"
+          path: "{{ _wxconfig_target_package_config_path }}/wxconfig.cnf"
           regexp: '^{{ item }}'
           insertafter: '^#{{ item }}'
           line: "{{ item }}"

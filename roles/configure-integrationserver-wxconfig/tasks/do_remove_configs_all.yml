@@ -15,12 +15,12 @@
 
       - name: Check if main wxconfig controller file is there already
         stat: 
-          path: "{{ wxconfig_target_package_config_path }}/wxconfig.cnf"
+          path: "{{ _wxconfig_target_package_config_path }}/wxconfig.cnf"
         register: stat_wxconfig_enabled
 
       - name: Find wxconfig files in package
         find:
-          paths: "{{ wxconfig_target_package_config_path }}"
+          paths: "{{ _wxconfig_target_package_config_path }}"
           patterns: "*{{ rvar_wxconfig_unique_groupname | default('',true) | lower | regex_replace('all') }}.xml"
         register: "result_wxconfig_files"
 
@@ -28,7 +28,7 @@
 
       - name: Remove all the relevant config lines in the main wxconfig controller file
         lineinfile:
-          path: "{{ wxconfig_target_package_config_path }}/wxconfig.cnf"
+          path: "{{ _wxconfig_target_package_config_path }}/wxconfig.cnf"
           regexp: '^wx.config.incl={{ item.path | basename }}'
           state: absent
         register: "result_wxconfig_remove_configs_lines"

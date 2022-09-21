@@ -19,13 +19,13 @@
 
       - name: Make sure the encrypted dir is there
         file:
-          path: "{{ wxconfig_encrypted_values_dir }}"
+          path: "{{ _wxconfig_encrypted_values_dir }}"
           state: directory
 
       - name: Populate wxconfig encrypted values file if the rvar_wxconfig_encrypted_items is defined and non empty
         template:
           src: WxConfigEncVal_template.txt.j2
-          dest: "{{ wxconfig_encrypted_values_dir }}/WxConfigEncVal_{{ rvar_wxconfig_unique_groupname | lower }}.txt"
+          dest: "{{ _wxconfig_encrypted_values_dir }}/WxConfigEncVal_{{ rvar_wxconfig_unique_groupname | lower }}.txt"
         register: "result_wxconfig_content_operation"
 
       - name: Set changed flag to true if any mutating operation did change
