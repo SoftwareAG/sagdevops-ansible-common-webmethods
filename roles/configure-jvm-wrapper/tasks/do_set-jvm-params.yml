@@ -1,5 +1,14 @@
 ---
 
+## notes:
+# rvar_jvm_params: same format as what's expected in the wrapper file...
+# TODO: we should intelligently update the wrapper file without having to know about the additional and indices... BUT harder to create...
+# For now, here is the sample format:
+# rvar_jvm_params
+#   wrapper.java.additional.400: "-Dtest1=val1.1"
+#   wrapper.java.additional.401: "-Dtest2=val2.2"
+#   wrapper.java.additional.402: "-Dtest3=val3.3"
+
   - name: "Update config file {{ rvar_wrapper_file }} with rvar_jvm_params params if defined"
     lineinfile:
       state: present

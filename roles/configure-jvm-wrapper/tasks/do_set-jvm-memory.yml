@@ -1,5 +1,9 @@
 ---
 
+## notes:
+# rvar_jvm_mem_min: <full value in MB, suffix g,G,etc. not supported>
+# rvar_jvm_mem_max: <full value in MB, suffix g,G,etc. not supported>
+
   - name: "Update config file {{ rvar_wrapper_file }} with rvar_jvm_mem_min param if defined"
     lineinfile:
       state: present

@@ -3,8 +3,8 @@
   - name: Include generic set license tasks
     include_tasks: "do_set-license.yml"
     vars:
-      webmethods_target_license_path: "{{ webmethods_integrationserver_core_license_path }}"
-      webmethods_license_inzip_path: "{{ webmethods_integrationserver_core_license_inzip_src_path }}"
+      webmethods_target_license_path: "{{ _is_license_path }}"
+      webmethods_license_inzip_path: "{{ _is_license_inzip_src_path }}"
 
   - name: Set changed flag
     set_fact:

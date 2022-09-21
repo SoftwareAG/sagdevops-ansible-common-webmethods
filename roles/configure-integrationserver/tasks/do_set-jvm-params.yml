@@ -1,12 +1,9 @@
 ---
+## for info about input variable rvar_jvm_params,
+## see sagdevops-ansible-common-webmethods/roles/configure-jvm-wrapper/tasks/do_set-jvm-params.yml
 
-  - debug: var=wmis_cfgparams_jvm_settings_dict verbosity=3
-
-  - name: "Update config file {{ custom_wrapper_file }} with wmis_cfgparams_jvm_settings_dict params if defined"
-    lineinfile:
-      path: "{{ custom_wrapper_file }}"
-      regexp: '^{{ item.key }}'
-      insertafter: '^#{{ item.key }}'
-      line: "{{ item.key }}={{ item.value }}"
-    with_dict: "{{ wmis_cfgparams_jvm_settings_dict }}"
-    when: wmis_cfgparams_jvm_settings_dict is defined and (wmis_cfgparams_jvm_settings_dict|length > 0)
+- import_role:
+    name: configure-jvm-wrapper
+  vars:
+    configs_action: set-jvm-params
+    rvar_wrapper_file: "{{ _custom_wrapper_file }}"

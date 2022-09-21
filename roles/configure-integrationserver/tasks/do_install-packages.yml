@@ -1,7 +1,7 @@
 ---
 
   - name: Packages to install
-    debug: var=wmis_cfgparams_install_packages_list verbosity=3
+    debug: var=rvar_is_install_packages_list verbosity=3
 
   - name: Set changed flag to false if not defined
     set_fact: 
@@ -12,13 +12,13 @@
     block:
 
       - name: Include group tasks
-        include_tasks: "do_install-package.yml"
-        with_items: "{{ wmis_cfgparams_install_packages_list }}"
+        include_tasks: "do_install-package-single.yml"
+        with_items: "{{ rvar_is_install_packages_list }}"
         loop_control:
-          loop_var: wmis_cfgparams_install_package_single
+          loop_var: rvar_is_install_package_single
 
       - name: Set changed flag to true if a change happened
         set_fact: 
           configure_integrationserver_install_packages_changed: "{{ configure_integrationserver_install_package_changed }}"
 
-    when: wmis_cfgparams_install_packages_list is defined and (wmis_cfgparams_install_packages_list|length > 0)
+    when: rvar_is_install_packages_list is defined and (rvar_is_install_packages_list|length > 0)

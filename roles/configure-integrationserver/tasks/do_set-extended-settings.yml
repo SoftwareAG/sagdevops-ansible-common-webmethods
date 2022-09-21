@@ -1,19 +1,24 @@
 ---
 
-  - debug: var=rvar_wmis_watt_params verbosity=1
+## format:
+## rvar_is_watts_params:
+#     watt.xxx.xxx.xxx: "value"
+#     watt.xxx.xxx.xxx: "value"
+
+  - debug: var=rvar_is_watts_params verbosity=1
   
   - debug:
       msg: "Regex: ^{{ item.key | replace('.','\\.') }}=  /// Replace Value: {{ item.key }}={{ item.value }}"
       verbosity: 1
-    with_dict: "{{ rvar_wmis_watt_params }}"
-    when: rvar_wmis_watt_params is defined and (rvar_wmis_watt_params|length > 0)
+    with_dict: "{{ rvar_is_watts_params }}"
+    when: rvar_is_watts_params is defined and (rvar_is_watts_params|length > 0)
 
-  - name: "Update config file {{ runtime_instance_config_file }} with new extended settings"
+  - name: "Update config file {{ _runtime_instance_config_file }} with new extended settings"
     lineinfile:
       state: present
-      path: "{{ runtime_instance_config_file }}"
+      path: "{{ _runtime_instance_config_file }}"
       regexp: "^{{ item.key | replace('.','\\.') }}="
       insertafter: "^#{{ item.key | replace('.','\\.') }}="
       line: "{{ item.key }}={{ item.value }}"
-    with_dict: "{{ rvar_wmis_watt_params }}"
-    when: rvar_wmis_watt_params is defined and (rvar_wmis_watt_params|length > 0)
+    with_dict: "{{ rvar_is_watts_params }}"
+    when: rvar_is_watts_params is defined and (rvar_is_watts_params|length > 0)

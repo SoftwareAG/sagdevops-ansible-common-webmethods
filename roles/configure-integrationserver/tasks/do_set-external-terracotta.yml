@@ -5,15 +5,20 @@
   - import_role: 
       name: get-inventory-hosts
     vars:
-      inventory_pattern: "{{ external_terracotta_inventory_pattern }}"
+      inventory_pattern: "{{ rvar_is_terracotta_connect_inventory_pattern }}"
       inventory_hosts_property: "ansible_host"
       inventory_hosts_clear_first: true
       inventory_hosts_add_prefix: ""
-      inventory_hosts_add_suffix: ":{{ external_terracotta_port }}"
+      inventory_hosts_add_suffix: ":{{ rvar_is_terracotta_connect_port }}"
   
   - name: Set terracotta_hosts_list facts
     set_fact:
       terracotta_hosts_list: "{{ output_inventory_hosts }}"
+
+  - name: fail if no terracotta hosts were found
+    fail:
+      msg: "No terracotta host was found in the ansible inventory...please check inventory value of rvar_is_terracotta_connect_inventory_pattern to make sure it's valid"
+    when: terracotta_hosts_list is not defined or (terracotta_hosts_list|length == 0)
 
   - name: Set external terracotta in the right file if host list is not empty
     block:
@@ -21,7 +26,7 @@
       - name: "Set IS extended settings with terracotta specific configs"
         include_tasks: "do_set-extended-settings.yml"
         vars:
-          wmis_cfgparams_extended_settings_dict:
+          rvar_is_watts_params:
             watt.server.cluster.aware: "true"
             watt.server.cluster.tsaURLs: "{{ terracotta_hosts_list | join(',') }}"
             watt.server.cluster.name: "TC_CLUSTER"
@@ -29,11 +34,11 @@
             watt.server.cachemanager.connectTimeout: 30000
             watt.server.cluster.SessTimeout: 90
 
-      - name: "Update config file {{ custom_wrapper_file }} with terracotta specific settings"
+      - name: "Update config file {{ _custom_wrapper_file }} with terracotta specific settings"
         include_tasks: "do_set-jvm-params.yml"
         vars:
-          wmis_cfgparams_jvm_settings_dict:
-            wrapper.java.additional.500: "-Dtest.cluster.withDerby={{ is_clustering_use_internal_db | bool | lower }}"
+          rvar_jvm_params:
+            wrapper.java.additional.500: "-Dtest.cluster.withDerby=true"
             wrapper.java.additional.501: "-Dcom.tc.tc.config.total.timeout=1200000"
             wrapper.java.additional.502: "-Dcom.tc.l1.max.connect.retries=100"
             wrapper.java.additional.503: "-Dcom.tc.l1.socket.reconnect.waitInterval=10000"

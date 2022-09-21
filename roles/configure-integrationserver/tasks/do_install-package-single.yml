@@ -1,7 +1,7 @@
 ---
 
   - name: Single Package to install
-    debug: var=wmis_cfgparams_install_package_single verbosity=3
+    debug: var=rvar_is_install_package_single verbosity=3
 
   - name: Set changed flag to false if not defined
     set_fact: 
@@ -13,38 +13,38 @@
       msg: "A mandatory param was not defined, cannot do anything."
     when: item is not defined
     with_items:
-      - "{{ wmis_cfgparams_install_package_single.bucket_path }}"
-      - "{{ wmis_cfgparams_install_package_single.target_instance_name }}"
+      - "{{ rvar_is_install_package_single.bucket_path }}"
+      - "{{ rvar_is_install_package_single.target_instance_name }}"
 
   - name: set target package name from the passed-in variables
     set_fact: 
-      __target_package_name: "{{ wmis_cfgparams_install_package_single.target_package_name }}"
-    when: wmis_cfgparams_install_package_single.target_package_name is defined and wmis_cfgparams_install_package_single.target_package_name != ""
+      __target_package_name: "{{ rvar_is_install_package_single.target_package_name }}"
+    when: rvar_is_install_package_single.target_package_name is defined and rvar_is_install_package_single.target_package_name != ""
 
   - name: OR default package name to the name of the file on the remote location
     set_fact: 
-      __target_package_name: "{{ (wmis_cfgparams_install_package_single.bucket_path | basename | splitext)[0] }}"
-    when: wmis_cfgparams_install_package_single.target_package_name is not defined or wmis_cfgparams_install_package_single.target_package_name == ""
+      __target_package_name: "{{ (rvar_is_install_package_single.bucket_path | basename | splitext)[0] }}"
+    when: rvar_is_install_package_single.target_package_name is not defined or rvar_is_install_package_single.target_package_name == ""
 
   - name: Set the target instance for this package install in order to get the riht path for the packages folder
     set_fact: 
-      product_instance_name: "{{ wmis_cfgparams_install_package_single.target_instance_name }}"
+      product_instance_name: "{{ rvar_is_install_package_single.target_instance_name }}"
   
   - name: Set the local target package path
     set_fact: 
-      __target_package_dir: "{{ runtime_instance_package_home }}/{{ __target_package_name }}"
+      __target_package_dir: "{{ _runtime_instance_package_home }}/{{ __target_package_name }}"
 
   - name: set temp local download path
     set_fact: 
-      __local_download_path: "{{ runtime_instance_package_home }}/{{ wmis_cfgparams_install_package_single.bucket_path | basename }}"
+      __local_download_path: "{{ _runtime_instance_package_home }}/{{ rvar_is_install_package_single.bucket_path | basename }}"
 
   - debug: var=__target_package_name verbosity=3
-  - debug: var=wmis_cfgparams_install_packages_force_reinstall_list verbosity=3
+  - debug: var=rvar_is_install_packages_force_reinstall_list verbosity=3
 
   - name: check if we should force re-install the package even if it exists
     set_fact: 
       __target_force_reinstall_package: true
-    when: __target_package_name in (wmis_cfgparams_install_packages_force_reinstall_list | default([],true))
+    when: __target_package_name in (rvar_is_install_packages_force_reinstall_list | default([],true))
 
   - name: check 1 if package already installed
     stat: 
@@ -84,7 +84,7 @@
         vars:
           command: get-files-from-s3
           getfroms3_files_descriptor_list:
-            - bucket_path: "{{ wmis_cfgparams_install_package_single.bucket_path }}"
+            - bucket_path: "{{ rvar_is_install_package_single.bucket_path }}"
               local_path: "{{ __local_download_path }}"
               local_path_permission: "0600"
               local_path_create_dir_ifnotexist: true
