@@ -7,48 +7,48 @@ runtime_instance_home: "{{ webmethods_install_dir }}/IntegrationServer/instances
 runtime_instance_configs_home: "{{ runtime_instance_home }}/config"
 runtime_instance_package_home: "{{ runtime_instance_home }}/packages"
 wxconfig_configs_dir: "{{ runtime_instance_configs_home }}/WxConfig"
-wxconfig_target_package_path: "{{ runtime_instance_package_home }}/{{ wxconfig_params_target_package_name }}"
+wxconfig_target_package_path: "{{ runtime_instance_package_home }}/{{ rvar_wxconfig_target_package_name }}"
 wxconfig_target_package_config_path: "{{ wxconfig_target_package_path }}/config"
 wxconfig_encrypted_values_dir: "{{ wxconfig_configs_dir }}/EncryptedValues"
 
 ## group name represent the distinct ID for all the wxconfig files
-wxconfig_params_unique_groupname:
-wxconfig_params_do_remove_configs:
+rvar_wxconfig_unique_groupname:
+rvar_wxconfig_do_remove_configs:
 
 ## install settings
-wxconfig_params_packages: []
-wxconfig_params_licensing: {}
+rvar_wxconfig_packages: []
+rvar_wxconfig_licensing: {}
 
 ## global settings values
-wxconfig_params_global_configs: {}
-wxconfig_params_target_package_name:
+rvar_wxconfig_global_configs: {}
+rvar_wxconfig_target_package_name:
 
 ## encrypted values
-wxconfig_params_encrypted_items: {}
+rvar_wxconfig_encrypted_items: {}
 
 ## jdbc settings
-wxconfig_params_jdbc: {}
+rvar_wxconfig_jdbc: {}
 
 ## certs settings
-wxconfig_params_keytruststore_list: []
+rvar_wxconfig_keytruststore_list: []
 
 ## ports settings
-wxconfig_params_ports_https_list: []
+rvar_wxconfig_ports_https_list: []
 
 ## extended settings
-wxconfig_params_extended_settings_list: []
+rvar_wxconfig_extended_settings_list: []
 
 ## extended settings
-wxconfig_params_userpassword_list: []
+rvar_wxconfig_userpassword_list: []
 
 ## ACL settings
-wxconfig_params_groups_list:
+rvar_wxconfig_groups_list:
   # - name: "groupname"
   #   updateIfExists: "true"
   #   deleteOnUnload: "false"
   #   users: []
 
-wxconfig_params_acl_list:
+rvar_wxconfig_acl_list:
   # - name: "aclname"
   #   updateIfExists: "true"
   #   deleteOnUnload: "false"
@@ -58,7 +58,7 @@ wxconfig_params_acl_list:
 
 # if folder is set, it will be taken over the servicename value
 # 'enforce' can be "always" or "topLevelOnly"
-wxconfig_params_service_acl_mapping_list:
+rvar_wxconfig_service_acl_mapping_list:
   # - servicename: "service"
   #   folder: "foldername"
   #   includeSubfolders: true
@@ -72,7 +72,7 @@ wxconfig_params_service_acl_mapping_list:
   #   writeACL: "ACLNAME"
 
 ## ldap settings
-wxconfig_params_ldap: []
+rvar_wxconfig_ldap: []
   # numberOfUsers: 10
   # credentialTimeToLiveMin: 60
   # server_list:

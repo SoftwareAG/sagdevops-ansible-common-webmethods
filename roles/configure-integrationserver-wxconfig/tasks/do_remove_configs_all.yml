@@ -5,13 +5,13 @@
       configure_integrationserver_wxconfig_remove_configs_group_changed: false
     when: configure_integrationserver_wxconfig_remove_configs_group_changed is not defined
 
-  - name: Remove configs only if variable wxconfig_params_do_remove_configs set
+  - name: Remove configs only if variable rvar_wxconfig_do_remove_configs set
     block:
 
-      - name: fail if wxconfig_params_target_package_name not specified
+      - name: fail if rvar_wxconfig_target_package_name not specified
         fail: 
-          msg: "wxconfig_params_target_package_name not specified...cannot create."
-        when: wxconfig_params_target_package_name is not defined or wxconfig_params_target_package_name == ""
+          msg: "rvar_wxconfig_target_package_name not specified...cannot create."
+        when: rvar_wxconfig_target_package_name is not defined or rvar_wxconfig_target_package_name == ""
 
       - name: Check if main wxconfig controller file is there already
         stat: 
@@ -21,7 +21,7 @@
       - name: Find wxconfig files in package
         find:
           paths: "{{ wxconfig_target_package_config_path }}"
-          patterns: "*{{ wxconfig_params_unique_groupname | default('',true) | lower | regex_replace('all') }}.xml"
+          patterns: "*{{ rvar_wxconfig_unique_groupname | default('',true) | lower | regex_replace('all') }}.xml"
         register: "result_wxconfig_files"
 
       - debug: var=result_wxconfig_files verbosity=3
@@ -50,7 +50,7 @@
           result_wxconfig_remove_configs_files.changed | bool or
           result_wxconfig_remove_configs_lines.changed | bool
 
-    when: wxconfig_params_do_remove_configs | default() | bool
+    when: rvar_wxconfig_do_remove_configs | default() | bool
 
   - name: Print the changed var
     debug:

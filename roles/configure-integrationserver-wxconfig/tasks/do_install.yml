@@ -10,7 +10,7 @@
       name: configure-integrationserver
     vars:
       configs_action: install-packages
-      wmis_cfgparams_install_packages_list: "{{ wxconfig_params_packages }}"
+      wmis_cfgparams_install_packages_list: "{{ rvar_wxconfig_packages }}"
 
   ## TODO: if license changed, probably should restart too? 
   ## (problem is: the AWS download wrapper does not check on same file or not...so we'll need to fix that first)
@@ -19,7 +19,7 @@
       name: aws-wrapper
     vars:
       command: get-files-from-s3
-      getfroms3_files_descriptor_list: "{{ wxconfig_params_licensing }}"
+      getfroms3_files_descriptor_list: "{{ rvar_wxconfig_licensing }}"
 
   - name: Set changed flag to true if any mutating operation did change
     set_fact: 

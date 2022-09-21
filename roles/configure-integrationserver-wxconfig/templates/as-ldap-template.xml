@@ -2,15 +2,15 @@
 <config>
      <wx.config.disableDelimiterParsing>true</wx.config.disableDelimiterParsing>
      <autoConfig>
-        {% if wxconfig_params_ldap is defined %}
+        {% if rvar_wxconfig_ldap is defined %}
         <ldap>
             <cache>
-                <numberOfUsers>{{ wxconfig_params_ldap.numberOfUsers | default('10',true) }}</numberOfUsers>
-                <credentialTimeToLiveMin>{{ wxconfig_params_ldap.credentialTimeToLiveMin | default('60',true) }}</credentialTimeToLiveMin>
+                <numberOfUsers>{{ rvar_wxconfig_ldap.numberOfUsers | default('10',true) }}</numberOfUsers>
+                <credentialTimeToLiveMin>{{ rvar_wxconfig_ldap.credentialTimeToLiveMin | default('60',true) }}</credentialTimeToLiveMin>
             </cache>
-            {% if wxconfig_params_ldap.server_list is defined %}
+            {% if rvar_wxconfig_ldap.server_list is defined %}
             <serverList>
-                {% for ldap_server in wxconfig_params_ldap.server_list %}
+                {% for ldap_server in rvar_wxconfig_ldap.server_list %}
                 <server updateIfExists="{{ ldap_server.updateIfExists | default() | bool | lower | default('true',true) }}" deleteOnUnload="{{ ldap_server.deleteOnUnload | default() | bool | lower | default('false',true) }}">
                     <url>{{ ldap_server.url }}</url>
                     {% if ldap_server.authentication is defined %}

@@ -3,7 +3,7 @@
     <accessControl>
 
     <!-- Integration Server groups-->
-    {% for wxconfig_group in wxconfig_params_groups_list %}
+    {% for wxconfig_group in rvar_wxconfig_groups_list %}
       <group name="{{ wxconfig_group.name }}" updateIfExists="{{ wxconfig_group.updateIfExists | default() | bool | lower }}" deleteOnUnload="{{ wxconfig_group.deleteOnUnload | default() | bool | lower }}">
         {% if wxconfig_group.users is defined %}
           {% for username in wxconfig_group.users %}
@@ -14,7 +14,7 @@
     {% endfor %}
 
     <!-- Integration Server ACLs -->
-    {% for wxconfig_acl in wxconfig_params_acl_list %}
+    {% for wxconfig_acl in rvar_wxconfig_acl_list %}
       <acl name="{{ wxconfig_acl.name }}" updateIfExists="{{ wxconfig_acl.updateIfExists | default() | bool | lower }}" deleteOnUnload="{{ wxconfig_acl.deleteOnUnload | default() | bool | lower }}">
         {% if wxconfig_acl.groups is defined %}
           {% for group in wxconfig_acl.groups %}
@@ -25,7 +25,7 @@
     {% endfor %}
 
     <!-- ACLs to services mapping -->
-    {% for wxconfig_service_acl_mapping in wxconfig_params_service_acl_mapping_list %}
+    {% for wxconfig_service_acl_mapping in rvar_wxconfig_service_acl_mapping_list %}
       {% if wxconfig_service_acl_mapping.servicename is defined and wxconfig_service_acl_mapping.servicename != "" %}
       <service name="{{ wxconfig_service_acl_mapping.servicename }}">
       {% elif wxconfig_service_acl_mapping.folder is defined and wxconfig_service_acl_mapping.folder != "" %}
