@@ -10,6 +10,11 @@
       msg: "License file source path does not exist..."
     when: not check_license_exists.stat.exists
 
+  - name: Create wxconfigs dir
+    file:
+      path: "{{ _wxconfig_configs_dir }}"
+      state: directory
+
   - name: Copy license to expected folder
     copy:
       src: "{{ rvar_wxconfig_license_path }}"
