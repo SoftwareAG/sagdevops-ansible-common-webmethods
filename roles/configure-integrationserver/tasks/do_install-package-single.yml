@@ -1,5 +1,12 @@
 ---
 
+## note: the remote_source_path should be a path that exists on the remote target machine
+## expected format
+  # remote_source_path: "path/to/a/package/zipfile"
+  # target_is_instance_name: default
+  # target_is_package_name: "packagename"
+  # force_reinstall: yes/no
+
   - name: Single Package to install
     debug: var=rvar_is_install_package_single verbosity=3
 
@@ -13,38 +20,44 @@
       msg: "A mandatory param was not defined, cannot do anything."
     when: item is not defined
     with_items:
-      - "{{ rvar_is_install_package_single.bucket_path }}"
-      - "{{ rvar_is_install_package_single.target_instance_name }}"
+      - "{{ rvar_is_install_package_single }}"
+      - "{{ rvar_is_install_package_single.remote_source_path }}"
+      - "{{ rvar_is_install_package_single.target_is_instance_name }}"
+
+  - name: set temp local download path
+    set_fact: 
+      __package_remote_source_path: "{{ rvar_is_install_package_single.remote_source_path }}"
 
   - name: set target package name from the passed-in variables
     set_fact: 
-      __target_package_name: "{{ rvar_is_install_package_single.target_package_name }}"
-    when: rvar_is_install_package_single.target_package_name is defined and rvar_is_install_package_single.target_package_name != ""
+      __target_package_name: "{{ rvar_is_install_package_single.target_is_package_name }}"
+    when: rvar_is_install_package_single.target_is_package_name is defined and rvar_is_install_package_single.target_is_package_name != ""
 
   - name: OR default package name to the name of the file on the remote location
     set_fact: 
       __target_package_name: "{{ (rvar_is_install_package_single.bucket_path | basename | splitext)[0] }}"
-    when: rvar_is_install_package_single.target_package_name is not defined or rvar_is_install_package_single.target_package_name == ""
+    when: rvar_is_install_package_single.target_is_package_name is not defined or rvar_is_install_package_single.target_is_package_name == ""
 
-  - name: Set the target instance for this package install in order to get the riht path for the packages folder
-    set_fact: 
-      product_instance_name: "{{ rvar_is_install_package_single.target_instance_name }}"
-  
   - name: Set the local target package path
     set_fact: 
       __target_package_dir: "{{ _runtime_instance_package_home }}/{{ __target_package_name }}"
 
-  - name: set temp local download path
+  - name: Set the target instance for this package install in order to get the riht path for the packages folder
     set_fact: 
-      __local_download_path: "{{ _runtime_instance_package_home }}/{{ rvar_is_install_package_single.bucket_path | basename }}"
-
-  - debug: var=__target_package_name verbosity=3
-  - debug: var=rvar_is_install_packages_force_reinstall_list verbosity=3
-
+      __target_instance_name: "{{ rvar_is_install_package_single.target_is_instance_name }}"
+  
   - name: check if we should force re-install the package even if it exists
     set_fact: 
-      __target_force_reinstall_package: true
-    when: __target_package_name in (rvar_is_install_packages_force_reinstall_list | default([],true))
+      __target_force_reinstall_package: "{{ rvar_is_install_package_single.force_reinstall | default(false, true) }}"
+
+  - debug:
+      var: "{{ item }}"
+      verbosity: 1
+    with_items:
+      - __package_remote_source_path
+      - __target_instance_name
+      - __target_package_dir
+      - __target_force_reinstall_package
 
   - name: check 1 if package already installed
     stat: 
@@ -65,57 +78,54 @@
 
   - debug: var=check_package_installed verbosity=3
 
-  - name: Install package only if it's not already there, or if force-reinstall var is set
+  - debug: 
+      msg: "{{ __target_package_name }} already exists in Integration Server instance...will not re-install!"
+      verbosity: 1
+    when: (check_package_installed | bool) == true or (__target_force_reinstall_package | default() | bool) == false
+
+  - name: Install package only if it's not already there, or will re-install if force_reinstall var is set
     block:
 
       - debug: 
-          msg: "Re-installing package {{ __target_package_name }} in Integration Server instance \"{{ product_instance_name }}\""
+          msg: "Re-installing package {{ __target_package_name }} in Integration Server instance \"{{ __target_instance_name }}\""
           verbosity: 1
         when: (check_package_installed | bool) and (__target_force_reinstall_package | bool)
       
       - debug: 
-          msg: "Installing new package {{ __target_package_name }} in Integration Server instance \"{{ product_instance_name }}\"" 
+          msg: "Installing new package {{ __target_package_name }} in Integration Server instance \"{{ __target_instance_name }}\"" 
           verbosity: 1
         when: (check_package_installed | bool) == false
 
-      - name: Downloading the package from s3 to apply on integration server
-        import_role: 
-          name: aws-wrapper
-        vars:
-          command: get-files-from-s3
-          getfroms3_files_descriptor_list:
-            - bucket_path: "{{ rvar_is_install_package_single.bucket_path }}"
-              local_path: "{{ __local_download_path }}"
-              local_path_permission: "0600"
-              local_path_create_dir_ifnotexist: true
-              local_path_create_dir_permission: "0700"
-              force_download: "true"
+      - name: check if source path exists on the remote
+        stat: 
+          path: "{{ __package_remote_source_path }}"
+        register: check_package_exists
 
-      - name: First, delete the target folder if it exists and we are installing
+      - name: fail if package source file does not exists on the remote
+        fail:
+          msg: "Package source path does not exist..."
+        when: not check_package_exists.stat.exists
+
+      - name: First, delete the target folder if it exists and we are re-installing
         file:
           path: "{{ __target_package_dir }}"
           state: absent
 
-      - name: Create the extracted dir on the remote machine
+      - name: Create target dir on the remote machine
         file:
           path: "{{ __target_package_dir }}"
           state: directory
 
       - name: Unarchive the packages on the remote machine
         unarchive:
-          src: "{{ __local_download_path }}"
+          src: "{{ __package_remote_source_path }}"
           dest: "{{ __target_package_dir }}"
           remote_src: yes
 
       - name: Delete the archive once extracted
         file:
-          path: "{{ __local_download_path }}"
+          path: "{{ __package_remote_source_path }}"
           state: absent
-      
-      - name: check if package installed
-        stat: 
-          path: "{{ __target_package_dir }}/manifest.rel"
-        register: webmethods_package_just_installed
 
       - name: Set changed flag to true
         set_fact:

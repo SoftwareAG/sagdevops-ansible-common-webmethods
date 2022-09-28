@@ -1,0 +1,20 @@
+---
+
+  - name: check if license source path exists
+    stat: 
+      path: "{{ rvar_wxconfig_license_path }}"
+    register: check_license_exists
+
+  - name: fail if license file does not exists
+    fail:
+      msg: "License file source path does not exist..."
+    when: not check_license_exists.stat.exists
+
+  - name: Copy license to expected folder
+    copy:
+      src: "{{ rvar_wxconfig_license_path }}"
+      dest: "{{ _wxconfig_configs_dir }}/WxConfig.license"
+      mode: "0644"
+      remote_src: yes
+    register: file_copied
+    when: check_license_exists.stat.exists

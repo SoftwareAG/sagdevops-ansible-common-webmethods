@@ -1,4 +1,14 @@
 ---
+## expected format
+# rvar_is_install_packages_list:
+#   - remote_source_path: "path/to/a/package/zipfile1"
+#     target_is_instance_name: default
+#     target_is_package_name: "packagename1"
+#     force_reinstall: yes/no
+#   - remote_source_path: "path/to/a/package/zipfile2"
+#     target_is_instance_name: default
+#     target_is_package_name: "packagename2"
+#     force_reinstall: yes/no
 
   - name: Packages to install
     debug: var=rvar_is_install_packages_list verbosity=3
