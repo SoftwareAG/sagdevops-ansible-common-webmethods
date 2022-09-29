@@ -1,9 +1,9 @@
 ---
 
 ## Config files
-product_instance_name: "default"
-_runtime_profile_home: "{{ webmethods_install_dir }}/profiles/IS_{{ product_instance_name }}"
-_runtime_instance_home: "{{ webmethods_install_dir }}/IntegrationServer/instances/{{ product_instance_name }}"
+integrationserver_instance_name: "default"
+_runtime_profile_home: "{{ webmethods_install_dir }}/profiles/IS_{{ integrationserver_instance_name }}"
+_runtime_instance_home: "{{ webmethods_install_dir }}/IntegrationServer/instances/{{ integrationserver_instance_name }}"
 _runtime_instance_package_home: "{{ _runtime_instance_home }}/packages"
 _runtime_instance_config_home: "{{ _runtime_instance_home }}/config"
 _runtime_instance_config_file: "{{ _runtime_instance_config_home }}/server.cnf"

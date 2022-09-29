@@ -2,10 +2,10 @@
 
 ## Config files
 wxconfig_version: "v1.10"
-wxconfig_is_instance_name: "default"
+wxconfig_integrationserver_instance_name: "default"
 
-_profile_instance_home: "{{ webmethods_install_dir }}/profiles/IS_{{ wxconfig_is_instance_name }}"
-_runtime_instance_home: "{{ webmethods_install_dir }}/IntegrationServer/instances/{{ wxconfig_is_instance_name }}"
+_profile_instance_home: "{{ webmethods_install_dir }}/profiles/IS_{{ wxconfig_integrationserver_instance_name }}"
+_runtime_instance_home: "{{ webmethods_install_dir }}/IntegrationServer/instances/{{ wxconfig_integrationserver_instance_name }}"
 _runtime_instance_configs_home: "{{ _runtime_instance_home }}/config"
 _runtime_instance_package_home: "{{ _runtime_instance_home }}/packages"
 _wxconfig_configs_dir: "{{ _runtime_instance_configs_home }}/WxConfig"
