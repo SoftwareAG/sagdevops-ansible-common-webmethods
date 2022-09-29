@@ -18,7 +18,7 @@
   - name: Copy license to expected folder
     copy:
       src: "{{ rvar_wxconfig_license_path }}"
-      dest: "{{ _wxconfig_configs_dir }}/WxConfig.license"
+      dest: "{{ _wxconfig_license_path }}"
       mode: "0644"
       remote_src: yes
     register: file_copied
