@@ -1,14 +1,3 @@
 ---
 
-- include_tasks: "command_{{ product_command }}.yaml"
-  vars:
-    service_exec_filepath: "{{ webmethods_install_dir }}/profiles/CTP/bin/sagctp{{ product_version_full }}"
-    service_name: "sag1ctp{{ product_version_full }}"
-    service_pidfile: "{{ webmethods_install_dir }}/profiles/CTP/bin/sagctp{{ product_version_full }}.pid"
-    service_params:
-      RemainAfterExit: "no"
-      Restart: "on-failure"
-      RestartSec: 90
-    unit_params:
-      After: "network-online.target"
-      Requires: "network-online.target"
+- include_tasks: product_ctp.yaml

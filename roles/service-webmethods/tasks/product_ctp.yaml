@@ -9,6 +9,8 @@
       RemainAfterExit: "no"
       Restart: "on-failure"
       RestartSec: 90
+      TimeoutStartSec: 60
+      TimeoutStopSec: 60
     unit_params:
       After: "network-online.target"
       Requires: "network-online.target"
