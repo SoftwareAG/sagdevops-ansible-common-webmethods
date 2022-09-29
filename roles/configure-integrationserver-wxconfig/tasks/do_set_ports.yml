@@ -1,0 +1,21 @@
+---
+
+  - debug: var=rvar_wxconfig_ports_list verbosity=3
+
+  - name: Set changed flag to false if not defined
+    set_fact: 
+      configure_integrationserver_wxconfig_set_ports_changed: false
+    when: configure_integrationserver_wxconfig_set_ports_https_changed is not defined
+
+  - name: Install the wxconfig configs in IS target package only if value variable is not empty
+    block:
+
+      - fail:
+          msg: "Not implemented yet...TODO!!"
+
+    when: rvar_wxconfig_ports_list is defined and rvar_wxconfig_ports_list|length > 0
+
+  - name: Print the changed var
+    debug:
+      var: configure_integrationserver_wxconfig_set_ports_changed
+      verbosity: 2
