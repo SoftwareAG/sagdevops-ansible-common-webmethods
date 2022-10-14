@@ -9,6 +9,23 @@
 #   wrapper.java.additional.401: "-Dtest2=val2.2"
 #   wrapper.java.additional.402: "-Dtest3=val3.3"
 
+  - debug: var=rvar_wrapper_file verbosity=1
+  
+  - name: fail if mandatory params not specified
+    fail: 
+      msg: "wrapper file source path is not defined...should be!"
+    when: rvar_wrapper_file is not defined
+
+  - name: check if wrapper path exists
+    stat: 
+      path: "{{ rvar_wrapper_file }}"
+    register: check_wrapperfile
+
+  - name: fail if wrapper file does not exists
+    fail:
+      msg: "wrapper file source path does not exist..."
+    when: not check_wrapperfile.stat.exists
+
   - name: "Update config file {{ rvar_wrapper_file }} with rvar_jvm_params params if defined"
     lineinfile:
       state: present

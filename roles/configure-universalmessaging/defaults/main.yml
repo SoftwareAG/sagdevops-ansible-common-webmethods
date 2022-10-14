@@ -1,5 +1,5 @@
 ---
 
-_um_instance_name: "{{ product_instance_name | default('default',true) }}"
+_um_instance_name: "{{ product_instance_name | default('umserver',true) }}"
 _um_instance_home: "{{ webmethods_install_dir }}/UniversalMessaging/server/{{ _um_instance_name }}"
-_um_custom_wrapper_file: "{{ _um_instance_home }}/bin/custom_wrapper.conf"
+_um_custom_wrapper_file: "{{ _um_instance_home }}/bin/Custom_Server_Common.conf"
