@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><config>
+    <autoConfig>
+        <remoteServerList>
+            <remoteServer alias="remoteServer" updateIfExists="true" destroyOnShutdown="true">
+                <host>localhost</host> 	   <!--	host: string, required -->
+                <port>5555</port>		   <!--	port: positive integer, required -->
+                <username>Administrator</username> <!--	username: string, required -->
+                <password>manage</password>  <!--	password: string, required -->
+                <executeAcl>Internal</executeAcl>  <!--	executeAcl: string, required -->
+                <maxKeepAliceConnections>5</maxKeepAliceConnections>  <!--	maxKeepAliceConnections: positive integer, required -->
+                <maxKeepAliveTimeoutMins>1</maxKeepAliveTimeoutMins>  <!--	maxKeepAliveTimeoutMins: positive integer, required -->
+                <useSsl>false</useSsl>     <!-- useSsl: boolean (default: false), optional-->
+                <keyStoreAlias></keyStoreAlias>  <!-- keyStoreAlias: required if useSsl=true, otherwise ignored -->
+                <keyAlias></keyAlias>			<!-- keyAlias: required if useSsl=true, otherwise ignored -->
+                <retryServer></retryServer>  <!--	retryServer: string, optional -->
+            </remoteServer>
+        </remoteServerList>
+    </autoConfig>
+    </config>
+    

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><config>
+    <autoConfig>
+      <cacheManager name="MyCacheMgr" autoStart="true" autoShutdown="false" destroyOnShutdown="true" rejoin="false"> 
+      <tsaURL>ServerArray1,ServerArray2</tsaURL>
+      <tsaURL>ServerArray3</tsaURL>
+            <!--	rejoin: true/false, default=false , optional, fals if tsa = null -->
+            <!--	tsaURL=names of ServerArrays, optional -->
+        <cache name="MyCache"
+            eternal="false"								      
+            maxElementsInMemory="0"						         
+            overflowToDisk="false"						
+            cacheLoaderTimeoutMillis="30000"			
+            timeToIdleSeconds="0"						
+            timeToLiveSeconds="0"						
+            maxElementsOnDisk="0"						
+            logging="false"								
+            clearOnFlush="false"						
+            copyOnRead="false"							
+            copyOnWrite="false"							
+            overflowToOffHeap="false"					
+            maxMemoryOffHeap=""							
+            memoryStoreEvictionPolicy="LRU"				
+            diskExpiryThreadIntervalSeconds="120"		
+            diskPersistent="false"						
+            diskSpoolBufferSizeMB="30"	
+            diskAccessStripes="5"
+            statistics="false"							
+            autoStart="false"							
+            autoShutdown="false"						
+            destroyOnShutdown="false"				
+            >
+            <!--	maxElementsInMemory: integer, default=0, optional -->
+            <!--	overflowToDisk: true/false, default=false , optional -->
+            <!--	cacheLoaderTimeoutMillis="30000" -->
+            <!--	timeToIdleSeconds: integer, default=0, optional, ignored if eternal==true-->
+            <!--	timeToLiveSeconds: integer, default=0, optional, ignored if eternal==true-->
+            <!--	maxElementsOnDisk: integer, default=0, optional, ignored if overflowToDisk==false-->
+            <!--	logging: true/false, default=false , optional -->
+            <!--	clearOnFlush: true/false, default=false , optional -->
+            <!--	copyOnRead: true/false, default=false , optional -->
+            <!--	copyOnWrite: true/false, default=false , optional -->
+            <!--	overflowToOffHeap: true/false, default=false , optional -->
+            <!--	maxMemoryOffHeap: <integer><k|K|m|M|g|G|t|T>, default=empty, optional -->
+            <!--	memoryStoreEvictionPolicy: LRU/FIFO/LFU, default=LRU , optional -->
+            <!--	diskExpiryThreadIntervalSeconds: 	integer, default=120, optional, ignored if overflowToDisk==false-->
+            <!--	diskPersistent: true/false, default=false , optional -->
+            <!--	diskSpoolBufferSizeMB: integer, default=30, optional, ignored if overflowToDisk==false-->
+            <!--	diskAccessStripes: integer, default=1, optional, not settable over ui-->
+            <!--	statistics: true/false, default=false , optional -->
+            <!--	autoStart: true/false, default=false , optional -->
+            <!--	autoShutdown: true/false, default=false , optional -->
+            <!--	destroyOnShutdown: true/false, default=false , optional, only used if autoShutdown=true -->
+            <terracottaConfiguration
+                clustered="false"
+                consistency="STRONG"
+                maxEntriesInCache="0"
+                synchronousWrites="false"
+                storageStrategy="DCV2">
+                <!--	clustered: true/false, default=false , optional-->
+                <!--	consistency: STRONG/EVENTUAL, default=STRONG , optional -->
+                <!--	maxEntriesInCache: integer, default=0, optional -->
+                <!--	synchronousWrites=true/false, default=false , optional -->
+                <!--    storageStrategy=-DCV2/CLASSIC, default=DCV2, optional-->
+                <nonStopConfiguration
+                    timeoutBehaviorType="noop"
+                    enabled="false"
+                    immediateTimeout="false"
+                    timeoutMillis="30000"
+                     />
+            </terracottaConfiguration>
+            <!--	timeoutBehaviorType: noop/exception/local_reads, default=noop, optional -->
+            <!--	enabled: true/false, default=false , optional-->
+            <!--	immediateTimeout: true/false, default="false" , optinal -->
+            <!--	timeoutMillis=integer default="30000", necessary if immediateTimeout==true-->
+            
+            <searchable
+                searchableKeys="false"
+                searchableValues="false"
+                allowDynamicIndexing="false"
+                dynamicFieldExtractor="">
+                <!--Dynamic indexing requires a class implmenting the DynamicAttributeExtractor interface passed as dynamicFieldExtractor-->
+                
+                <searchAttribute                 
+                    name="id"                 
+                    expression="value.getId()">            
+                </searchAttribute>
+                <searchAttribute                 
+                    name="name"                 
+                    expression="value.getName()">            
+                </searchAttribute>
+                <searchAttribute                 
+                    name="name"                 
+                    class="com.softwareag.wx.idata.IDataAttributeExtractor"
+                    properties="path=path/to/name">            
+                </searchAttribute>
+                <!--Search attribute based on class requires a custom extractor class-->
+                
+            </searchable>
+            <!-- Define search attributes for the cache, optional -->
+        </cache>
+      </cacheManager>
+    
+    </autoConfig>
+    </config>
+    
