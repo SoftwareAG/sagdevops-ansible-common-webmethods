@@ -2,14 +2,14 @@
 <config>
     <autoConfig>
         {% for wxconfig_cachemanager in rvar_wxconfig_cachemanagers_list %}
-        <cacheManager name="{{ wxconfig_cachemanager.name }}" autoStart="{{ wxconfig_cachemanager.autoStart | default() | bool | lower }}" autoShutdown="{{ wxconfig_cachemanager.autoShutdown | default() | bool | lower }}" rejoin="{{ wxconfig_cachemanager.rejoin | default() | bool | lower }}" updateIfExists="{{ wxconfig_cachemanager.updateIfExists | default() | bool | lower }}" reloadOnStart="{{ wxconfig_cachemanager.reloadOnStart | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_cachemanager.destroyOnShutdown | default() | bool | lower }}">
+        <cacheManager name="{{ wxconfig_cachemanager.name }}" autoStart="{{ wxconfig_cachemanager.autoStart | default('true',true) | bool | lower }}" autoShutdown="{{ wxconfig_cachemanager.autoShutdown | default('true',true) | bool | lower }}" rejoin="{{ wxconfig_cachemanager.rejoin | default() | bool | lower }}" updateIfExists="{{ wxconfig_cachemanager.updateIfExists | default() | bool | lower }}" reloadOnStart="{{ wxconfig_cachemanager.reloadOnStart | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_cachemanager.destroyOnShutdown | default() | bool | lower }}">
             {% if wxconfig_cachemanager.tsaUrl is defined %}
             <tsaURL>{{ wxconfig_cachemanager.tsaUrl }}</tsaURL>
             {% endif %}
             {% if wxconfig_cachemanager.caches is defined %}
             {% for wxconfig_cachemanager_cache in wxconfig_cachemanager.caches %}
             <cache name="MyCache"
-                autoStart="{{ wxconfig_cachemanager_cache.autoStart | default() | bool | lower }}" autoShutdown="{{ wxconfig_cachemanager_cache.autoShutdown | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_cachemanager_cache.destroyOnShutdown | default() | bool | lower }}"
+                autoStart="{{ wxconfig_cachemanager_cache.autoStart | default('true',true) | bool | lower }}" autoShutdown="{{ wxconfig_cachemanager_cache.autoShutdown | default('true',true) | bool | lower }}" destroyOnShutdown="{{ wxconfig_cachemanager_cache.destroyOnShutdown | default() | bool | lower }}"
                 {% if wxconfig_cachemanager_cache.attributes is defined and wxconfig_cachemanager_cache.attributes.keys() | length > 0 %}
                     {% for k,v in wxconfig_cachemanager_cache.attributes.items() %}
                     {{ k }}="{{ v }}"
