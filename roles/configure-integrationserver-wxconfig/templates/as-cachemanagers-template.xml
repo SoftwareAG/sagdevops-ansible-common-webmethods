@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <autoConfig>
+        {% for wxconfig_cachemanager in rvar_wxconfig_cachemanagers_list %}
+        <cacheManager name="{{ wxconfig_cachemanager.name }}" autoStart="{{ wxconfig_cachemanager.autoStart | default() | bool | lower }}" autoShutdown="{{ wxconfig_cachemanager.autoShutdown | default() | bool | lower }}" rejoin="{{ wxconfig_cachemanager.rejoin | default() | bool | lower }}" updateIfExists="{{ wxconfig_cachemanager.updateIfExists | default() | bool | lower }}" reloadOnStart="{{ wxconfig_cachemanager.reloadOnStart | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_cachemanager.destroyOnShutdown | default() | bool | lower }}">
+            {% if wxconfig_cachemanager.tsaUrl is defined %}
+            <tsaURL>{{ wxconfig_cachemanager.tsaUrl }}</tsaURL>
+            {% endif %}
+            {% if wxconfig_cachemanager.caches is defined %}
+            {% for wxconfig_cachemanager_cache in wxconfig_cachemanager.caches %}
+            <cache name="MyCache"
+                autoStart="{{ wxconfig_cachemanager_cache.autoStart | default() | bool | lower }}" autoShutdown="{{ wxconfig_cachemanager_cache.autoShutdown | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_cachemanager_cache.destroyOnShutdown | default() | bool | lower }}"
+                {% if wxconfig_cachemanager_cache.attributes is defined and wxconfig_cachemanager_cache.attributes.keys() | length > 0 %}
+                    {% for k,v in wxconfig_cachemanager_cache.attributes.items() %}
+                    {{ k }}="{{ v }}"
+                    {% endfor %}
+                {% endif %}
+                >
+                {% if wxconfig_cachemanager_cache.terracottaConfiguration is defined %}
+                <terracottaConfiguration
+                {% if wxconfig_cachemanager_cache.terracottaConfiguration.attributes is defined and wxconfig_cachemanager_cache.terracottaConfiguration.attributes.keys() | length > 0 %}
+                    {% for k,v in wxconfig_cachemanager_cache.terracottaConfiguration.attributes.items() %}
+                    {{ k }}="{{ v }}"
+                    {% endfor %}
+                {% endif %}
+                >
+                {% if wxconfig_cachemanager_cache.terracottaConfiguration.nonStopConfiguration is defined %}
+                    <nonStopConfiguration
+                    {% if wxconfig_cachemanager_cache.terracottaConfiguration.nonStopConfiguration.attributes is defined and wxconfig_cachemanager_cache.terracottaConfiguration.nonStopConfiguration.attributes.keys() | length > 0 %}
+                        {% for k,v in wxconfig_cachemanager_cache.terracottaConfiguration.nonStopConfiguration.attributes.items() %}
+                        {{ k }}="{{ v }}"
+                        {% endfor %}
+                    {% endif %}
+                    />
+                {% endif %}
+                </terracottaConfiguration>
+                {% endif %}
+                {% if wxconfig_cachemanager_cache.searchableConfiguration is defined %}
+                <searchable
+                {% if wxconfig_cachemanager_cache.searchableConfiguration.attributes is defined and  wxconfig_cachemanager_cache.searchableConfiguration.attributes.keys() | length > 0 %}
+                    {% for k,v in  wxconfig_cachemanager_cache.searchableConfiguration.attributes.items() %}
+                    {{ k }}="{{ v }}"
+                    {% endfor %}
+                {% endif %}
+                >
+                {% if wxconfig_cachemanager_cache.searchableConfiguration.searchAttributes is defined %}
+                    {% for wxconfig_cachemanager_cache_searchAttribute in wxconfig_cachemanager_cache.searchableConfiguration.searchAttributes %}
+                    <searchAttribute
+                        {% if wxconfig_cachemanager_cache_searchAttribute.attributes is defined and wxconfig_cachemanager_cache_searchAttribute.attributes.keys() | length > 0 %}
+                            {% for k,v in wxconfig_cachemanager_cache_searchAttribute.attributes.items() %}
+                            {{ k }}="{{ v }}"
+                            {% endfor %}
+                        {% endif %}
+                    />
+                    {% endfor %}
+                {% endif %}
+                </searchable>
+                {% endif %}
+            </cache>
+            {% endfor %}
+            {% endif %}
+        </cacheManager>
+        {% endfor %}
+    </autoConfig>
+</config>

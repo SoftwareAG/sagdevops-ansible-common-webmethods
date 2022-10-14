@@ -1,0 +1,59 @@
+---
+
+  - debug: var=rvar_wxconfig_cachemanagers_list verbosity=3
+
+  - name: Set changed flag to false if not defined
+    set_fact: 
+      configure_integrationserver_wxconfig_set_cache_managers_changed: false
+    when: configure_integrationserver_wxconfig_set_extended_settings_changed is not defined
+
+  - name: Install the wxconfig configs in IS target package only if value variable is not empty
+    block:
+
+      - name: fail if rvar_wxconfig_target_package_name not specified
+        fail: 
+          msg: "rvar_wxconfig_target_package_name not specified...cannot create."
+        when: rvar_wxconfig_target_package_name is not defined or rvar_wxconfig_target_package_name == ""
+
+      - name: fail if rvar_wxconfig_unique_groupname not specified
+        fail: 
+          msg: "rvar_wxconfig_unique_groupname not specified...cannot create."
+        when: rvar_wxconfig_unique_groupname is not defined or rvar_wxconfig_unique_groupname == ""
+
+      - name: Check if main wxconfig controller file is there already
+        stat: 
+          path: "{{ _wxconfig_target_package_config_path }}/wxconfig.cnf"
+        register: stat_wxconfig_enabled
+
+      - name: fail if wxconfig is not enabled via the controller file
+        fail: 
+          msg: "wxconfig controller file wxconfig.cnf is not present in current package {{ rvar_wxconfig_target_package_name }}...make sure to enable WxConfig for this package"
+        when: stat_wxconfig_enabled.stat.exists == false
+
+      - name: Populate wxconfig file if the rvar_wxconfig_cachemanagers_list is defined and non empty
+        template:
+          src: as-cachemanagers-template.xml
+          dest: "{{ _wxconfig_target_package_config_path }}/wxconfigs-cachemanagers-{{ rvar_wxconfig_unique_groupname | lower }}.xml"
+        register: "result_wxconfig_content_operation"
+
+      - name: Enable this new config in the main controller file
+        lineinfile:
+          path: "{{ _wxconfig_target_package_config_path }}/wxconfig.cnf"
+          regexp: '^{{ item }}'
+          insertafter: '^#{{ item }}'
+          line: "{{ item }}"
+        register: "result_wxconfig_controller_operation"
+        with_items:
+          - "wx.config.incl=wxconfigs-cachemanagers-{{ rvar_wxconfig_unique_groupname | lower }}.xml"
+
+      - name: Set changed flag to true if any mutating operation did change
+        set_fact: 
+          configure_integrationserver_wxconfig_set_cache_managers_changed: true
+        when: result_wxconfig_content_operation.changed == true or result_wxconfig_controller_operation.changed == true
+
+    when: rvar_wxconfig_cachemanagers_list is defined and rvar_wxconfig_cachemanagers_list|length > 0
+
+  - name: Print the changed var
+    debug:
+      var: configure_integrationserver_wxconfig_set_cache_managers_changed
+      verbosity: 2

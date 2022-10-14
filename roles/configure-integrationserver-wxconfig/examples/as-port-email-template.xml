@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><config>
+    <autoConfig>
+        <ports>
+            <email alias="Email1" updateIfExists="true" autoStart="true" autoShutdown="false" destroyOnShutdown="true">
+                <package>OtherPackage_Default-is-package-of-this-configuration</package>   <!-- optional -->
+                <description>Sample email port</description>
+                <protocol>imap</protocol> <!-- pop3, imap -->
+                <hostname>localhost</hostname>
+                <port></port>  <!-- optional -->
+                <user>administrator@demo.com</user>
+                <password>manage</password>
+                <tls>None</tls>  <!-- None, Explicit, Implicit -->
+                <truststoreAlias></truststoreAlias>   <!-- optional -->
+                <checkInterval>300</checkInterval>
+                <logout>no</logout>
+                <runUser>Default</runUser>
+                <authorizationWithMessage>no</authorizationWithMessage>
+                <globalService></globalService>   <!-- optional -->
+                <defaultService></defaultService>   <!-- optional -->
+                <reply>no</reply>
+                <replyOnError>no</replyOnError>
+                <imap>
+                    <deleteValid>yes</deleteValid>
+                    <deleteInvalid>yes</deleteInvalid>
+                    <multiThreaded>
+                        <enabled>no</enabled>
+                        <numOfThreads>0</numOfThreads>
+                    </multiThreaded>
+                </imap>
+                <splitMultiPartMessage>yes</splitMultiPartMessage>
+                <includeEmailHeaders>no</includeEmailHeaders>
+                <bodyIsUrlEncoded>yes</bodyIsUrlEncoded>
+                <serviceAccess>   <!-- optional, default: mode = global default -->
+                    <mode>deny</mode>  <!-- allow  = allow by default
+                                            deny   = deny by default -->
+                    <exceptionList cleanBeforeAdding="true">
+                        <exception>pub.flow:debugLog</exception>
+                        <exception>pub.flow:tracePipeline</exception>
+                        <exception>pub.json</exception>  <!-- Entire folder , not only single service-->
+                    </exceptionList>
+                </serviceAccess>
+                <ipAccess> <!-- optional, default: mode = global default -->
+                    <mode>deny</mode>  <!-- allow  = allow by default
+                                            deny   = deny by default -->
+                    <exceptionList cleanBeforeAdding="true">
+                        <exception>www.softwareag.com</exception>
+                        <exception>intranet.acme.com</exception>
+                    </exceptionList>
+                </ipAccess>
+            </email>
+        </ports>
+    </autoConfig>
+    </config>
+        
