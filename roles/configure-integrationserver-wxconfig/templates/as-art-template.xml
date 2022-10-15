@@ -1,63 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <autoConfig>
+        {% if rvar_wxconfig_adapter_connections_list is defined and rvar_wxconfig_adapter_connections_list | length > 0 %}
         <adapter>
-            <connection alias="Default.conn:jdbcCon1" disableBeforePackageLoad="false" updateIfExists="true" autoStart="true" autoShutdown="false" destroyOnShutdown="true">
-                <packageName>Default</packageName>
-                <adapterTypeName>JDBCAdapter</adapterTypeName>
-                <connectionFactoryType>com.wm.adapter.wmjdbc.connection.JDBCConnectionFactory</connectionFactoryType>
-                <connectionManagerSettings>
-                    <poolable>true</poolable>
-                    <minimumPoolSize>1</minimumPoolSize>
-                    <maximumPoolSize>10</maximumPoolSize>
-                    <poolIncrementSize>1</poolIncrementSize>
-                    <blockingTimeout>1000</blockingTimeout> <!-- In milliseconds -->
-                    <expireTimeout>1000</expireTimeout> <!-- In milliseconds -->
-                    <startupRetryCount>0</startupRetryCount>
-                    <startupBackoffSecs>10</startupBackoffSecs>
+            {% for wxconfig_adapter_connection in rvar_wxconfig_adapter_connections_list %}
+            <connection alias="{{ wxconfig_adapter_connection.alias }}" disableBeforePackageLoad="{{ wxconfig_adapter_connection.disableBeforePackageLoad | default() | bool | lower }}" updateIfExists="{{ wxconfig_adapter_connection.updateIfExists | default() | bool | lower }}" autoStart="{{ wxconfig_adapter_connection.autoStart| default() | bool | lower }}" autoShutdown="{{ wxconfig_adapter_connection.autoShutdown | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_adapter_connection.destroyOnShutdown | default() | bool | lower }}">       
+                {% if wxconfig_adapter_connection.properties is defined and wxconfig_adapter_connection.properties.keys() | length > 0 %}
+                {% for k,v in wxconfig_adapter_connection.properties.items() %}
+                <{{ k }}>{{ v }}</{{ k }}>
+                {% endfor %}
+                {% endif %}
+                {% if wxconfig_adapter_connection.connectionManagerSettings is defined and wxconfig_adapter_connection.connectionManagerSettings.keys() | length > 0 %}
+                <connectionManagerSettings>   
+                    {% for k,v in wxconfig_adapter_connection.connectionManagerSettings.items() %}
+                    <{{ k }}>{{ v }}</{{ k }}>
+                    {% endfor %}
                 </connectionManagerSettings>
-                <connectionSettings>
-                    <transactionType>LOCAL_TRANSACTION</transactionType> <!-- LOCAL_TRANSACTION, XA_TRANSACTION, NO_TRANSACTION -->
-                    <datasourceClass>com.microsoft.sqlserver.jdbc.SQLServerDataSource</datasourceClass>
-                    <serverName>localhost</serverName>
-                    <user>WEBM822</user>
-                    <password>manage</password>
-                    <databaseName>WEBM</databaseName> <!-- The [[encrypted:???]] directive should normally be used here -->
-                    <portNumber>1433</portNumber>
-                    <networkProtocol></networkProtocol>
-                    <otherProperties></otherProperties>
+                {% endif %}
+                {% if wxconfig_adapter_connection.connectionSettings is defined and wxconfig_adapter_connection.connectionSettings.keys() | length > 0 %}
+                <connectionSettings>   
+                    {% for k,v in wxconfig_adapter_connection.connectionSettings.items() %}
+                    <{{ k }}>{{ v }}</{{ k }}>
+                    {% endfor %}
                 </connectionSettings>
+                {% endif %}
             </connection>
-
-            <connection alias="Default.conn:centraSiteCon1" updateIfExists="true" autoStart="true" autoShutdown="false" destroyOnShutdown="true">
-                <packageName></packageName>
-                <adapterTypeName>CentraSiteAdapter</adapterTypeName>
-                <connectionFactoryType>com.softwareag.wm.adapter.soa.CentraSiteConnectionFactory</connectionFactoryType>
-                <connectionManagerSettings>
-                    <poolable>true</poolable>
-                    <minimumPoolSize>1</minimumPoolSize>
-                    <maximumPoolSize>10</maximumPoolSize>
-                    <poolIncrementSize>1</poolIncrementSize>
-                    <blockingTimeout>1000</blockingTimeout> <!-- In milliseconds -->
-                    <expireTimeout>1000</expireTimeout> <!-- In milliseconds -->
-                    <startupRetryCount>0</startupRetryCount>
-                    <startupBackoffSecs>10</startupBackoffSecs>
-                </connectionManagerSettings>
-                <connectionSettings>
-                    <centraSiteURL></centraSiteURL>
-                    <centraSiteUser></centraSiteUser>
-                    <centraSitePWD></centraSitePWD> <!-- The [[encrypted:???]] directive should normally be used here -->
-                    <centraSiteLocale></centraSiteLocale>
-                    <centraSiteDefaultLocale></centraSiteDefaultLocale>
-                </connectionSettings>
-            </connection>
-
-            <!-- Currently only start/stop auf polling notifications is supported. 
-                They need to be created manually -->
-            <pollingNotification alias="Default.conn:jdbcCon1PollNoti" autoStart="true" autoShutdown="true"></pollingNotification>
+            {% endfor %}
         </adapter>
-
-
+        {% endif %}
     </autoConfig>
 </config>
-    
