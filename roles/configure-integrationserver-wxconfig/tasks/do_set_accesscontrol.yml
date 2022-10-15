@@ -12,8 +12,8 @@
       - name: set template config
         include_tasks: set_wxconfig_template.yml
         vars:
-          _wxconfig_template_file: as-accessControl-template.xml
-          _wxconfig_target_filename_prefix: wxconfigs-accessControl
+          _wxconfig_template_file: as-access-control-template.xml
+          _wxconfig_target_filename_prefix: wxconfigs-access-control
    
       - name: Set changed flag to true if any mutating operation did change
         set_fact: 

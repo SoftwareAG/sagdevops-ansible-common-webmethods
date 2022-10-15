@@ -35,8 +35,11 @@ rvar_wxconfig_jdbc: {}
 ## certs settings
 rvar_wxconfig_keytruststore_list: []
 
-## ports settings
+## ports settings - https port
 rvar_wxconfig_ports_https_list: []
+
+## ports settings - email port
+rvar_wxconfig_ports_email_list: []
 
 ## extended settings
 rvar_wxconfig_extended_settings_list: []
@@ -104,54 +107,54 @@ rvar_wxconfig_ldap: []
   #         rootdn:
 
 ## cache managers
-rvar_wxconfig_cachemanagers_list:
-  - name: "cachemanager1"
-    autoStart: "true"
-    autoShutdown: "true"
-    rejoin: "true"
-    updateIfExists: "true"
-    reloadOnStart: "true"
-    destroyOnShutdown: "false"
-    caches:
-      - name: "cachename1"
-        autoStart: "false" 
-        autoShutdown: "false" 
-        destroyOnShutdown: "false"
-        attributes: {}
-        terracottaConfiguration:
-          attributes: {}
-          nonStopConfiguration:
-            attributes: {}
-        searchableConfiguration:
-          attributes: {}
-          searchAttributes:
-            attributes: {}
-      - name: "cachename2"
-        autoStart: "false" 
-        autoShutdown: "false" 
-        destroyOnShutdown: "false"
-        attributes: {}
-        terracottaConfiguration:
-          attributes: {}
-          nonStopConfiguration:
-            attributes: {}
-        searchableConfiguration:
-          attributes: {}
-          searchAttributes:
-            attributes: {}
-      - name: "cachename3"
-        autoStart: "false" 
-        autoShutdown: "false" 
-        destroyOnShutdown: "false"
-        attributes: {}
-        terracottaConfiguration:
-          attributes: {}
-          nonStopConfiguration:
-            attributes: {}
-        searchableConfiguration:
-          attributes: {}
-          searchAttributes:
-            attributes: {}
+rvar_wxconfig_cachemanagers_list: []
+  # - name: "cachemanager1"
+  #   autoStart: "true"
+  #   autoShutdown: "true"
+  #   rejoin: "true"
+  #   updateIfExists: "true"
+  #   reloadOnStart: "true"
+  #   destroyOnShutdown: "false"
+  #   caches:
+  #     - name: "cachename1"
+  #       autoStart: "false" 
+  #       autoShutdown: "false" 
+  #       destroyOnShutdown: "false"
+  #       attributes: {}
+  #       terracottaConfiguration:
+  #         attributes: {}
+  #         nonStopConfiguration:
+  #           attributes: {}
+  #       searchableConfiguration:
+  #         attributes: {}
+  #         searchAttributes:
+  #           attributes: {}
+  #     - name: "cachename2"
+  #       autoStart: "false" 
+  #       autoShutdown: "false" 
+  #       destroyOnShutdown: "false"
+  #       attributes: {}
+  #       terracottaConfiguration:
+  #         attributes: {}
+  #         nonStopConfiguration:
+  #           attributes: {}
+  #       searchableConfiguration:
+  #         attributes: {}
+  #         searchAttributes:
+  #           attributes: {}
+  #     - name: "cachename3"
+  #       autoStart: "false" 
+  #       autoShutdown: "false" 
+  #       destroyOnShutdown: "false"
+  #       attributes: {}
+  #       terracottaConfiguration:
+  #         attributes: {}
+  #         nonStopConfiguration:
+  #           attributes: {}
+  #       searchableConfiguration:
+  #         attributes: {}
+  #         searchAttributes:
+  #           attributes: {}
 
 ## integration server messaging objects
 ## format on these lists are the expected field names by wxconfig
@@ -161,3 +164,12 @@ rvar_wxconfig_is_messaging_jndi_list: []
 rvar_wxconfig_is_messaging_jmsalias_list: []
 rvar_wxconfig_is_messaging_jmstriggers_list: []
   
+## adapter connections
+## format on these lists are the expected field names by wxconfig
+rvar_wxconfig_adapter_connections_list: []
+
+## schedulers
+rvar_wxconfig_schedulers_list: []
+
+## remote servers
+rvar_wxconfig_remoteservers_list: []

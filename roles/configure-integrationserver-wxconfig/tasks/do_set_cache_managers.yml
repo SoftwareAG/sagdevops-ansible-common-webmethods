@@ -10,8 +10,8 @@
       - name: set template config
         include_tasks: set_wxconfig_template.yml
         vars:
-          _wxconfig_template_file: as-cachemanagers-template.xml
-          _wxconfig_target_filename_prefix: wxconfigs-cachemanagers
+          _wxconfig_template_file: as-cache-managers-template.xml
+          _wxconfig_target_filename_prefix: wxconfigs-cache-managers
    
       - name: Set changed flag to true if any mutating operation did change
         set_fact: 

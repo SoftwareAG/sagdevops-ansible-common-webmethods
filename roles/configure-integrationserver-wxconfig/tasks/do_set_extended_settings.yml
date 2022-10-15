@@ -10,8 +10,8 @@
       - name: set template config
         include_tasks: set_wxconfig_template.yml
         vars:
-          _wxconfig_template_file: as-extendedSettings-template.xml
-          _wxconfig_target_filename_prefix: wxconfigs-extendedSettings
+          _wxconfig_template_file: as-extended-settings-template.xml
+          _wxconfig_target_filename_prefix: wxconfigs-extended-settings
    
       - name: Set changed flag to true if any mutating operation did change
         set_fact: 

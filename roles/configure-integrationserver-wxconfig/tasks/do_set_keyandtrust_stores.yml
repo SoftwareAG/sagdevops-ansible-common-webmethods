@@ -10,8 +10,8 @@
       - name: set template config
         include_tasks: set_wxconfig_template.yml
         vars:
-          _wxconfig_template_file: as-keyTrustStore-template.xml
-          _wxconfig_target_filename_prefix: wxconfigs-keyTrustStore
+          _wxconfig_template_file: as-keyandtrust-stores-template.xml
+          _wxconfig_target_filename_prefix: wxconfigs-keyandtrust-stores
    
       - name: Set changed flag to true if any mutating operation did change
         set_fact: 

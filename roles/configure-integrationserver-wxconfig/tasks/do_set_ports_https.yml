@@ -10,8 +10,8 @@
       - name: set template config
         include_tasks: set_wxconfig_template.yml
         vars:
-          _wxconfig_template_file: as-port-https-template.xml
-          _wxconfig_target_filename_prefix: wxconfigs-port-https
+          _wxconfig_template_file: as-ports-https-template.xml
+          _wxconfig_target_filename_prefix: wxconfigs-ports-https
    
       - name: Set changed flag to true if any mutating operation did change
         set_fact: 
