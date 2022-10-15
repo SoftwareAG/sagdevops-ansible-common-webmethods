@@ -1,20 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?><config>
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
     <autoConfig>
+    {% if rvar_wxconfig_remoteservers_list is defined and rvar_wxconfig_remoteservers_list | length > 0 %}
         <remoteServerList>
-            <remoteServer alias="remoteServer" updateIfExists="true" destroyOnShutdown="true">
-                <host>localhost</host> 	   <!--	host: string, required -->
-                <port>5555</port>		   <!--	port: positive integer, required -->
-                <username>Administrator</username> <!--	username: string, required -->
-                <password>manage</password>  <!--	password: string, required -->
-                <executeAcl>Internal</executeAcl>  <!--	executeAcl: string, required -->
-                <maxKeepAliceConnections>5</maxKeepAliceConnections>  <!--	maxKeepAliceConnections: positive integer, required -->
-                <maxKeepAliveTimeoutMins>1</maxKeepAliveTimeoutMins>  <!--	maxKeepAliveTimeoutMins: positive integer, required -->
-                <useSsl>false</useSsl>     <!-- useSsl: boolean (default: false), optional-->
-                <keyStoreAlias></keyStoreAlias>  <!-- keyStoreAlias: required if useSsl=true, otherwise ignored -->
-                <keyAlias></keyAlias>			<!-- keyAlias: required if useSsl=true, otherwise ignored -->
-                <retryServer></retryServer>  <!--	retryServer: string, optional -->
+        {% for wxconfig_remoteserver in rvar_wxconfig_remoteservers_list %}
+            <remoteServer alias="{{ wxconfig_remoteserver.alias | default() | bool | lower }}" updateIfExists="{{ wxconfig_remoteserver.updateIfExists | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_remoteserver.destroyOnShutdown | default() | bool | lower }}">
+            {% if wxconfig_remoteserver.properties is defined andwxconfig_remoteserver.properties.keys() | length > 0 %}
+                {% for k,v in wxconfig_remoteserver.properties.items() %}
+                <{{ k }}>{{ v }}</{{ k }}>
+                {% endfor %}
+            {% endif %}
             </remoteServer>
+        {% endfor %}
         </remoteServerList>
+    {% endif %}
     </autoConfig>
-    </config>
-    
+</config>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><config>
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
     <autoConfig>
         <!-- Repeating Scheduler 
         
@@ -10,8 +11,8 @@
             <updateIfExists>true</updateIfExists>
             <autoResume>true</autoResume>
             <deleteOnUnload>false</deleteOnUnload>
-            <suspendAfterCreation>false</suspendAfterCreation>  <!-- Does not apply if scheduler gets updated -->
-            <target>all</target>   <!-- optional; relevant in cluster context only
+            <suspendAfterCreation>false</suspendAfterCreation> <!-- Does not apply if scheduler gets updated -->
+            <target>all</target> <!-- optional; relevant in cluster context only
                                          all      = run scheduler on all IS instances belonging to the cluster
                                          any      = run scheduler on one IS instance of all those belonging 
                                                      to the cluster, it is not known before on which cluster
@@ -21,7 +22,7 @@
                                          For more details check the "webMethods Integration Server 
                                          Built-In Services Reference"
                                     -->
-            
+
             <type>repeating</type> <!-- case-sensitive -->
             <startTime></startTime> <!-- Optional. Time at which the task is scheduled to start,
                                         in HH:mm:ss format. If you do not specify a startTime , the
@@ -29,7 +30,7 @@
             <startDate></startDate> <!-- Optional. Date on which the task is scheduled to start,
                                         in yyyy/MM/dd format. If you do not specify date , the current
                                         date is used -->
-            <endTime></endTime>  <!-- Optional. Time at which the task expires, in HH:mm:ss
+            <endTime></endTime> <!-- Optional. Time at which the task expires, in HH:mm:ss
                                     format. If you do not specify an endTime , the server uses the
                                     current time -->
             <endDate></endDate> <!-- Optional. Date on which the task expires, in yyyy/
@@ -46,7 +47,7 @@
                                                     The Scheduler runs the task every time the value of interval
                                                     elapses. This is the default
                                             -->
-            <lateness>0</lateness>  <!--  The number of minutes (after the scheduled execution time) after 
+            <lateness>0</lateness> <!--  The number of minutes (after the scheduled execution time) after 
                                         which the server is to take a special action for a late task.
                                         You specify the action to be taken in the latenessAction
                                         parameter, described below. The server checks scheduled
@@ -66,18 +67,19 @@
             <runAsUser>Administrator</runAsUser> <!-- Optional. User ID under which the service is to be
                                         executed. If you do not specify a user name, the "Default"
                                         access rights are used. -->
-            
+
             <service>pub.flow:debugLog</service>
-            <inputs> <!-- Optional. Document (IData object) containing input
+            <inputs>
+                <!-- Optional. Document (IData object) containing input
                         to the scheduled service. -->
-                        
+
                 <!-- fill with input fields for invoked service, if required. Format
                     <fieldName>fieldValue</fieldName>
                 -->
                 <message>Test scheduler (repeating)\, please remove it</message>
             </inputs>
         </scheduler>
-        
+
         <!-- Complex Scheduler
         
             The description must be unique across all schedulers (regardless of their type)
@@ -88,8 +90,8 @@
             <updateIfExists>true</updateIfExists>
             <autoResume>true</autoResume>
             <deleteOnUnload>false</deleteOnUnload>
-            <suspendAfterCreation>false</suspendAfterCreation>  <!-- Does not apply if scheduler gets updated -->
-            <target>all</target>   <!-- optional; relevant in cluster context only
+            <suspendAfterCreation>false</suspendAfterCreation> <!-- Does not apply if scheduler gets updated -->
+            <target>all</target> <!-- optional; relevant in cluster context only
                                          all      = run scheduler on all IS instances belonging to the cluster
                                          any      = run scheduler on one IS instance of all those belonging 
                                                      to the cluster, it is not known before on which cluster
@@ -99,11 +101,11 @@
                                          For more details check the "webMethods Integration Server 
                                          Built-In Services Reference"
                                     -->
-            
+
             <type>complex</type> <!-- case-sensitive -->
             <hours>8</hours>
             <minutes>0</minutes>
-            <months></months>  <!-- String List; Optional. Months during which the task is scheduled
+            <months></months> <!-- String List; Optional. Months during which the task is scheduled
                                     to run. Months are represented by integers between 1 and 12,
                                     where “1” indicates January and “12” indicates December. If
                                     you do not specify months , the task will run every month. 
@@ -117,7 +119,7 @@
             <startDate></startDate> <!-- Optional. Date on which the task is scheduled to start,
                                         in yyyy/MM/dd format. If you do not specify date , the current
                                         date is used -->
-            <endTime></endTime>  <!-- Optional. Time at which the task expires, in HH:mm:ss
+            <endTime></endTime> <!-- Optional. Time at which the task expires, in HH:mm:ss
                                     format. If you do not specify an endTime , the server uses the
                                     current time -->
             <endDate></endDate> <!-- Optional. Date on which the task expires, in yyyy/
@@ -133,7 +135,7 @@
                                                     The Scheduler runs the task every time the value of interval
                                                     elapses. This is the default
                                             -->
-            <lateness>0</lateness>  <!--  The number of minutes (after the scheduled execution time) after 
+            <lateness>0</lateness> <!--  The number of minutes (after the scheduled execution time) after 
                                         which the server is to take a special action for a late task.
                                         You specify the action to be taken in the latenessAction
                                         parameter, described below. The server checks scheduled
@@ -153,18 +155,19 @@
             <runAsUser>Administrator</runAsUser> <!-- Optional. User ID under which the service is to be
                                         executed. If you do not specify a user name, the "Default"
                                         access rights are used. -->
-            
+
             <service>pub.flow:debugLog</service>
-            <inputs> <!-- Optional. Document (IData object) containing input
+            <inputs>
+                <!-- Optional. Document (IData object) containing input
                         to the scheduled service. -->
-                        
+
                 <!-- fill with input fields for invoked service, if required. Format
                     <fieldName>fieldValue</fieldName>
                 -->
                 <message>Test scheduler (complex)\, please remove it</message>
             </inputs>
         </scheduler>
-        
+
         <!-- One-time Scheduler
         
             The description must be unique across all schedulers (regardless of their type)
@@ -175,11 +178,11 @@
             <updateIfExists>true</updateIfExists>
             <autoResume>true</autoResume>
             <deleteOnUnload>false</deleteOnUnload>
-            <suspendAfterCreation>false</suspendAfterCreation>  <!-- Does not apply if scheduler gets updated -->
-            
-            <type>oneTime</type> 		<!-- case-sensitive -->
-            <date>2013/02/15</date> 	<!-- Format:  yyyy/MM/dd -->
-            <time>14:00:00</time>		<!-- Format:  HH:mm:ss -->
+            <suspendAfterCreation>false</suspendAfterCreation> <!-- Does not apply if scheduler gets updated -->
+
+            <type>oneTime</type> <!-- case-sensitive -->
+            <date>2013/02/15</date> <!-- Format:  yyyy/MM/dd -->
+            <time>14:00:00</time> <!-- Format:  HH:mm:ss -->
             <doNotOverlap>true</doNotOverlap> <!-- Optional. Flag that indicates whether you want
                                             executions of this task to overlap. Set to: 
                                             true : Prevent executions of the scheduled task from
@@ -190,7 +193,7 @@
                                                     The Scheduler runs the task every time the value of interval
                                                     elapses. This is the default
                                             -->
-            <lateness>0</lateness>  <!--  The number of minutes (after the scheduled execution time) after 
+            <lateness>0</lateness> <!--  The number of minutes (after the scheduled execution time) after 
                                         which the server is to take a special action for a late task.
                                         You specify the action to be taken in the latenessAction
                                         parameter, described below. The server checks scheduled
@@ -210,19 +213,20 @@
             <runAsUser>Administrator</runAsUser> <!-- Optional. User ID under which the service is to be
                                         executed. If you do not specify a user name, the "Default"
                                         access rights are used. -->
-            
+
             <service>pub.flow:debugLog</service>
-            <inputs> <!-- Optional. Document (IData object) containing input
+            <inputs>
+                <!-- Optional. Document (IData object) containing input
                         to the scheduled service. -->
-                        
+
                 <!-- fill with input fields for invoked service, if required. Format
                     <fieldName>fieldValue</fieldName>
                 -->
                 <message>Test scheduler (repeating)\, please remove it</message>
             </inputs>
         </scheduler>
-        
-        
+
+
         <!-- Pure delete operation 
         
             This will be executed on package startup and shutdown so that the scheduler gets removed
@@ -235,7 +239,7 @@
         <scheduler description="Remove this scheduler if it exists">
             <deleteOnly>true</deleteOnly>
         </scheduler>
-    
+
     </autoConfig>
-    </config>
+</config>
     
