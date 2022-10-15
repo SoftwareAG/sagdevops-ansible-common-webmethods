@@ -3,7 +3,7 @@
     <autoConfig>
         <messaging> 
             <integrationServer>
-                {% for wxconfig_messaging_wmalias in rvar_wxconfig_messaging_wmalias_list %}
+                {% for wxconfig_messaging_wmalias in rvar_wxconfig_is_messaging_wmalias_list %}
                 <webMethodsMessagingSettings>
                 {% if wxconfig_messaging_wmalias is defined and wxconfig_messaging_wmalias.keys() | length > 0 %}
                     {% for k,v in wxconfig_messaging_wmalias.items() %}
@@ -13,7 +13,7 @@
                 </webMethodsMessagingSettings>
                 {% endfor %}
 
-                {% for wxconfig_messaging_wmtrigger in rvar_wxconfig_messaging_wmtriggers_list %}
+                {% for wxconfig_messaging_wmtrigger in rvar_wxconfig_is_messaging_wmtriggers_list %}
                 <webMethodsMessagingTrigger updateIfExists="{{ wxconfig_messaging_wmtrigger.updateIfExists | default() | bool | lower }}">
                     <triggerName>{{ wxconfig_messaging_wmtrigger.triggerName }}</triggerName>
                     <package>{{ wxconfig_messaging_wmtrigger.package | default('${package.name}') }}</package>
@@ -28,7 +28,7 @@
                 </webMethodsMessagingTrigger>
                 {% endfor %}
                 
-                {% for wxconfig_messaging_jndi in rvar_wxconfig_messaging_jndi_list %}
+                {% for wxconfig_messaging_jndi in rvar_wxconfig_is_messaging_jndi_list %}
                 <jndiSettings>
                 {% if wxconfig_messaging_jndi is defined and wxconfig_messaging_jndi.keys() | length > 0 %}
                     {% for k,v in wxconfig_messaging_jndi.items() %}
@@ -38,7 +38,7 @@
                 </jndiSettings>
                 {% endfor %}
 
-                {% for wxconfig_messaging_jmsalias in rvar_wxconfig_messaging_jmsalias_list %}
+                {% for wxconfig_messaging_jmsalias in rvar_wxconfig_is_messaging_jmsalias_list %}
                 <jmsAlias>
                 {% if wxconfig_messaging_jmsalias is defined and wxconfig_messaging_jmsalias.keys() | length > 0 %}
                     {% for k,v in wxconfig_messaging_jmsalias.items() %}
@@ -48,7 +48,7 @@
                 </jmsAlias>
                 {% endfor %}
                 
-                {% for wxconfig_messaging_jmstrigger in rvar_wxconfig_messaging_jmstriggers_list %}
+                {% for wxconfig_messaging_jmstrigger in rvar_wxconfig_is_messaging_jmstriggers_list %}
                 <jmsTrigger updateIfExists="{{ wxconfig_messaging_jmstrigger.updateIfExists | default() | bool | lower }}">
                     <triggerName>{{ wxconfig_messaging_jmstrigger.triggerName }}</triggerName>
                     <package>{{ wxconfig_messaging_jmstrigger.package | default('${package.name}') }}</package>

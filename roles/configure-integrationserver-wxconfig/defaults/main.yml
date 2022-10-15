@@ -155,9 +155,9 @@ rvar_wxconfig_cachemanagers_list:
 
 ## integration server messaging objects
 ## format on these lists are the expected field names by wxconfig
-rvar_wxconfig_messaging_wmalias_list: []
-rvar_wxconfig_messaging_wmtriggers_list: []
-rvar_wxconfig_messaging_jndi_list: []
-rvar_wxconfig_messaging_jmsalias_list: []
-rvar_wxconfig_messaging_jmstriggers_list: []
+rvar_wxconfig_is_messaging_wmalias_list: []
+rvar_wxconfig_is_messaging_wmtriggers_list: []
+rvar_wxconfig_is_messaging_jndi_list: []
+rvar_wxconfig_is_messaging_jmsalias_list: []
+rvar_wxconfig_is_messaging_jmstriggers_list: []
   
