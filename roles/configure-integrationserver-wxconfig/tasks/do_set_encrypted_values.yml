@@ -26,12 +26,12 @@
         template:
           src: WxConfigEncVal_template.txt.j2
           dest: "{{ _wxconfig_encrypted_values_dir }}/WxConfigEncVal_{{ rvar_wxconfig_unique_groupname | lower }}.txt"
-        register: "result_wxconfig_content_operation"
+        register: _wxconfig_content_operation
 
       - name: Set changed flag to true if any mutating operation did change
         set_fact: 
           configure_integrationserver_wxconfig_set_encrypted_values_changed: true
-        when: result_wxconfig_content_operation.changed == true
+        when: _wxconfig_content_operation.changed == true
 
     when: rvar_wxconfig_encrypted_items is defined and rvar_wxconfig_encrypted_items.keys()|length > 0
 
