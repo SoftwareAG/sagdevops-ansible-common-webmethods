@@ -1,0 +1,53 @@
+---
+
+- debug: var=rvar_wxconfig_target_package_name verbosity=3
+- debug: var=rvar_wxconfig_unique_groupname verbosity=3
+- debug: var=_wxconfig_template_file verbosity=3
+- debug: var=_wxconfig_target_filename_prefix verbosity=3
+
+- name: re-init change flag to false
+  set_fact:
+    set_wxconfig_template_changed: false
+
+- name: fail if mandatory params not specified
+  fail: 
+    msg: "A mandatory param was not defined, cannot do anything."
+  when: item is not defined or item == ""
+  with_items:
+    - _wxconfig_template_file
+    - _wxconfig_target_filename_prefix
+    - rvar_wxconfig_target_package_name
+    - rvar_wxconfig_unique_groupname
+
+- name: Check if main wxconfig controller file is there already
+  stat:
+    path: "{{ _wxconfig_target_package_config_path }}/wxconfig.cnf"
+  register: stat_wxconfig_enabled
+
+- name: fail if wxconfig is not enabled via the controller file
+  fail:
+    msg: "wxconfig controller file wxconfig.cnf is not present in current package {{ rvar_wxconfig_target_package_name }}...make sure to enable WxConfig for this package"
+  when: stat_wxconfig_enabled.stat.exists == false
+
+- name: Populate wxconfig file if the rvar_wxconfig_cachemanagers_list is defined and non empty
+  template:
+    src: "{{ _wxconfig_template_file }}"
+    dest: "{{ _wxconfig_target_package_config_path }}/{{ _wxconfig_target_filename_prefix }}-{{ rvar_wxconfig_unique_groupname | lower }}.xml"
+  register: "_wxconfig_content_operation"
+
+- name: Enable this new config in the main controller file
+  lineinfile:
+    path: "{{ _wxconfig_target_package_config_path }}/wxconfig.cnf"
+    regexp: "^{{ item }}"
+    insertafter: "^#{{ item }}"
+    line: "{{ item }}"
+  register: "_wxconfig_controller_operation"
+  with_items:
+    - "wx.config.incl={{ _wxconfig_target_filename_prefix }}-{{ rvar_wxconfig_unique_groupname | lower }}.xml"
+
+- name: Set changed flag to true if any mutating operation did change
+  set_fact:
+    _wxconfig_template_operation_changed: true
+  when: _wxconfig_content_operation.changed == true or _wxconfig_controller_operation.changed == true
+
+- debug: var=_wxconfig_template_operation_changed verbosity=2

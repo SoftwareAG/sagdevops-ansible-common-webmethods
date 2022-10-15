@@ -103,6 +103,7 @@ rvar_wxconfig_ldap: []
   #         idproperty:
   #         rootdn:
 
+## cache managers
 rvar_wxconfig_cachemanagers_list:
   - name: "cachemanager1"
     autoStart: "true"
@@ -151,3 +152,12 @@ rvar_wxconfig_cachemanagers_list:
           attributes: {}
           searchAttributes:
             attributes: {}
+
+## integration server messaging objects
+## format on these lists are the expected field names by wxconfig
+rvar_wxconfig_messaging_wmalias_list: []
+rvar_wxconfig_messaging_wmtriggers_list: []
+rvar_wxconfig_messaging_jndi_list: []
+rvar_wxconfig_messaging_jmsalias_list: []
+rvar_wxconfig_messaging_jmstriggers_list: []
+  
