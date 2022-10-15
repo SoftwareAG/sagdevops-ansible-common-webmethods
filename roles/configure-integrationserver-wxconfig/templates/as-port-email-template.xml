@@ -1,53 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?><config>
     <autoConfig>
         <ports>
-            <email alias="Email1" updateIfExists="true" autoStart="true" autoShutdown="false" destroyOnShutdown="true">
-                <package>OtherPackage_Default-is-package-of-this-configuration</package>   <!-- optional -->
-                <description>Sample email port</description>
-                <protocol>imap</protocol> <!-- pop3, imap -->
-                <hostname>localhost</hostname>
-                <port></port>  <!-- optional -->
-                <user>administrator@demo.com</user>
-                <password>manage</password>
-                <tls>None</tls>  <!-- None, Explicit, Implicit -->
-                <truststoreAlias></truststoreAlias>   <!-- optional -->
-                <checkInterval>300</checkInterval>
-                <logout>no</logout>
-                <runUser>Default</runUser>
-                <authorizationWithMessage>no</authorizationWithMessage>
-                <globalService></globalService>   <!-- optional -->
-                <defaultService></defaultService>   <!-- optional -->
-                <reply>no</reply>
-                <replyOnError>no</replyOnError>
+            {% for wxconfig_email_port in rvar_wxconfig_ports_email_list %}
+            <email alias="{{ wxconfig_email_port.alias }}" updateIfExists="{{ wxconfig_email_port.updateIfExists | default() | bool | lower }}" autoStart="{{ wxconfig_email_port.autoStart| default() | bool | lower }}" autoShutdown="{{ wxconfig_email_port.autoShutdown | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_email_port.destroyOnShutdown | default() | bool | lower }}">
+            {% if wxconfig_email_port.properties is defined and wxconfig_email_port.properties.keys() | length > 0 %}
+                {% for k,v in wxconfig_email_port.properties.items() %}
+                <{{ k }}>{{ v }}</{{ k }}>
+                {% endfor %}
+            {% endif %}
+            {% if wxconfig_email_port.imap is defined and wxconfig_email_port.imap.keys() | length > 0 %}
                 <imap>
-                    <deleteValid>yes</deleteValid>
-                    <deleteInvalid>yes</deleteInvalid>
+                    <deleteValid>{{ wxconfig_email_port.imap.deleteValid | default() | bool | lower }}</deleteValid>
+                    <deleteInvalid>{{ wxconfig_email_port.imap.deleteInvalid | default() | bool | lower }}</deleteInvalid>
                     <multiThreaded>
-                        <enabled>no</enabled>
-                        <numOfThreads>0</numOfThreads>
+                        <enabled>{{ wxconfig_email_port.imap.multiThreaded | default() | bool | lower }}</enabled>
+                        <numOfThreads>{{ wxconfig_email_port.imap.numOfThreads | default('0',true) }}</numOfThreads>
                     </multiThreaded>
                 </imap>
-                <splitMultiPartMessage>yes</splitMultiPartMessage>
-                <includeEmailHeaders>no</includeEmailHeaders>
-                <bodyIsUrlEncoded>yes</bodyIsUrlEncoded>
-                <serviceAccess>   <!-- optional, default: mode = global default -->
-                    <mode>deny</mode>  <!-- allow  = allow by default
-                                            deny   = deny by default -->
+            {% endif %}
+                <!-- THESE ARE OPTIONAL...TODO: templatize that
+                <serviceAccess>
+                    <mode>allow</mode>
                     <exceptionList cleanBeforeAdding="true">
                         <exception>pub.flow:debugLog</exception>
                         <exception>pub.flow:tracePipeline</exception>
-                        <exception>pub.json</exception>  <!-- Entire folder , not only single service-->
+                        <exception>pub.json</exception>
                     </exceptionList>
                 </serviceAccess>
-                <ipAccess> <!-- optional, default: mode = global default -->
-                    <mode>deny</mode>  <!-- allow  = allow by default
-                                            deny   = deny by default -->
+                <ipAccess>
+                    <mode>allow</mode>
                     <exceptionList cleanBeforeAdding="true">
                         <exception>www.softwareag.com</exception>
                         <exception>intranet.acme.com</exception>
                     </exceptionList>
-                </ipAccess>
+                </ipAccess> -->
             </email>
+            {% endfor %}
         </ports>
     </autoConfig>
     </config>

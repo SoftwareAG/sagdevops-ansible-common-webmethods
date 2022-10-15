@@ -16,21 +16,23 @@
                     <max>{{ wxconfig_https_port.threadPool.max }}</max>                    <!-- required, if "enabled" == true; otherwise to be removed -->
                     <priority>{{ wxconfig_https_port.threadPool.priority }}</priority>                    <!-- required, if "enabled" == true; otherwise to be removed -->
                 </threadPool>
-                <serviceAccess>                    <!-- optional, default: mode = global default -->
-                    <mode>allow</mode>                    <!-- allow  = allow by default
-                                                                                deny   = deny by default -->
+                <!-- THESE ARE OPTIONAL...TODO: templatize that
+                <serviceAccess>
+                    <mode>allow</mode>
                     <exceptionList cleanBeforeAdding="true">
                         <exception>pub.flow:debugLog</exception>
                         <exception>pub.flow:tracePipeline</exception>
-                        <exception>pub.json</exception>                        <!-- Entire folder , not only single service-->
+                        <exception>pub.json</exception>
                     </exceptionList>
                 </serviceAccess>
-                <ipAccess>                    <!-- optional, default: mode = global default -->
-                    <mode>allow</mode>                    <!-- allow  = allow by default
-                                                                                deny   = deny by default -->
+                <ipAccess>
+                    <mode>allow</mode>
                     <exceptionList cleanBeforeAdding="true">
+                        <exception>www.softwareag.com</exception>
+                        <exception>intranet.acme.com</exception>
                     </exceptionList>
-                </ipAccess>
+                </ipAccess> -->
+
                 <security>
                     <!--clientAuthentication
                         none       : Username/password
