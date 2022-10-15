@@ -43,6 +43,14 @@ rvar_wxconfig_ports_email_list: []
 
 ## extended settings
 rvar_wxconfig_extended_settings_list: []
+  # - name: watt.name
+  #   value: value
+  #   visibility: show (default)
+  #   type: add (default)
+  # - name: watt.name
+  #   value: value
+  #   visibility: show (default)
+  #   type: add (default)
 
 ## extended settings
 rvar_wxconfig_userpassword_list: []
@@ -159,17 +167,101 @@ rvar_wxconfig_cachemanagers_list: []
 ## integration server messaging objects
 ## format on these lists are the expected field names by wxconfig
 rvar_wxconfig_is_messaging_wmalias_list: []
+  # - somekey1: value1
+  #   somekey2: value2
+  #   somekey3: value3
+  # - somekey1: value1
+  #   somekey2: value2
+  #   somekey3: value3
+
 rvar_wxconfig_is_messaging_wmtriggers_list: []
+  # - triggerName:
+  #   package:
+  #   updateIfExists: false
+  #   properties: {}
+  # - triggerName:
+  #   package:
+  #   updateIfExists: false
+  #   properties: {}
+
 rvar_wxconfig_is_messaging_jndi_list: []
+  # - somekey1: value1
+  #   somekey2: value2
+  #   somekey3: value3
+  # - somekey1: value1
+  #   somekey2: value2
+  #   somekey3: value3
+
 rvar_wxconfig_is_messaging_jmsalias_list: []
+  # - somekey1: value1
+  #   somekey2: value2
+  #   somekey3: value3
+  # - somekey1: value1
+  #   somekey2: value2
+  #   somekey3: value3
+
 rvar_wxconfig_is_messaging_jmstriggers_list: []
+  # - triggerName:
+  #   package:
+  #   updateIfExists: false
+  #   properties: {}
+  #   destinations: {}
+  #   routingrules: {}
+  # - triggerName:
+  #   package:
+  #   updateIfExists: false
+  #   properties: {}
+  #   destinations: {}
+  #   routingrules: {}
   
 ## adapter connections
 ## format on these lists are the expected field names by wxconfig
 rvar_wxconfig_adapter_connections_list: []
+  # - alias: unique alias 1
+  #   disableBeforePackageLoad: "true"
+  #   updateIfExists: "true"
+  #   autoStart: "true"
+  #   autoShutdown: "true"
+  #   destroyOnShutdown: "true"
+  #   properties: {}
+  #   connectionManagerSettings: {}
+  #   connectionSettings: {}
+  # - alias: unique alias 2
+  #   disableBeforePackageLoad: "true"
+  #   updateIfExists: "true"
+  #   autoStart: "true"
+  #   autoShutdown: "true"
+  #   destroyOnShutdown: "true"
+  #   properties: {}
+  #   connectionManagerSettings: {}
+  #   connectionSettings: {}
 
 ## schedulers
 rvar_wxconfig_schedulers_list: []
+  # - description: something unique 1
+  #   suspendOnUnload: "true"
+  #   updateIfExists: "true"
+  #   autoResume: "true"
+  #   deleteOnUnload: "true"
+  #   suspendAfterCreation: "true"
+  #   properties: {}
+  #   input: {}
+  # - description: something unique 2
+  #   suspendOnUnload: "true"
+  #   updateIfExists: "true"
+  #   autoResume: "true"
+  #   deleteOnUnload: "true"
+  #   suspendAfterCreation: "true"
+  #   properties: {}
+  #   input: {}
 
 ## remote servers
 rvar_wxconfig_remoteservers_list: []
+  # - alias: unique alias 1
+  #   updateIfExists: "true"
+  #   destroyOnShutdown: "true"
+  #   properties: {}
+  # - alias: unique alias 2
+  #   updateIfExists: "true"
+  #   destroyOnShutdown: "true"
+  #   properties: {}
