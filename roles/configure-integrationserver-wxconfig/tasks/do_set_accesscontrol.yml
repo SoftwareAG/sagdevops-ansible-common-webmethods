@@ -1,5 +1,4 @@
 ---
----
 
   - debug: var=rvar_wxconfig_groups_list verbosity=3
   - debug: var=rvar_wxconfig_acl_list verbosity=3
