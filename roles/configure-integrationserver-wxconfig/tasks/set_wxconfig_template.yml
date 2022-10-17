@@ -29,7 +29,7 @@
     msg: "wxconfig controller file wxconfig.cnf is not present in current package {{ rvar_wxconfig_target_package_name }}...make sure to enable WxConfig for this package"
   when: stat_wxconfig_enabled.stat.exists == false
 
-- name: Populate wxconfig file if the rvar_wxconfig_cachemanagers_list is defined and non empty
+- name: Populate wxconfig template file
   template:
     src: "{{ _wxconfig_template_file }}"
     dest: "{{ _wxconfig_target_package_config_path }}/{{ _wxconfig_target_filename_prefix }}-{{ rvar_wxconfig_unique_groupname | lower }}.xml"
