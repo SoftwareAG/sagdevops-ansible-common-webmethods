@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><CONFIG>
+    <CONNECTION default="true" displayname="Default" id="1" name="default" type="oracle">
+        <SQLWORKERCLASS>com.webmethods.portal.service.sql.core.BaseSqlWorker</SQLWORKERCLASS>
+        <CONNPROVIDERCLASS>com.webmethods.portal.service.sql.core.provider.pool.PooledConnectionProvider</CONNPROVIDERCLASS>
+        <PARAMS>
+            <DRIVER>{{ rvar_db_connect_settings.driver }}</DRIVER>
+            <URL>{{ rvar_db_connect_settings.url }}</URL>
+            <USER>{{ rvar_db_connect_settings.user }}</USER>
+            <PASSWORD>{{ rvar_db_connect_settings.password }}</PASSWORD>
+            <CACHESTATEMENTS>{{ rvar_db_connect_settings.cache_statements | default('false',true) }}</CACHESTATEMENTS>
+            <TESTSQL>{{ rvar_db_connect_settings.test_sql | default('SELECT COUNT(*) FROM TBLTHING WHERE IDTHING = 1',true) }}</TESTSQL>
+            <MAXCONNECTIONS>{{ rvar_db_connect_settings.conns_min | default('100',true) }}</MAXCONNECTIONS>
+            <MINCONNECTIONS>{{ rvar_db_connect_settings.conns_max | default('0',true) }}</MINCONNECTIONS>
+            <!-- Max amount of idle time (in seconds) of the objects pooled by this pool -->
+            <IDLETIMEOUT>{{ rvar_db_connect_settings.idle_timeout | default('60',true) }}</IDLETIMEOUT>
+            <!-- Time (in seconds) between eviction runs -->
+            <CLEANUPPERIOD>{{ rvar_db_connect_settings.cleanup_period | default('10',true) }}</CLEANUPPERIOD>
+        </PARAMS>
+    </CONNECTION>
+</CONFIG>

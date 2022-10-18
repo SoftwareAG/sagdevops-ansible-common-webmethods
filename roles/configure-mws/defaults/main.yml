@@ -1,0 +1,22 @@
+---
+
+## Config files
+mws_instance_name: "default"
+_runtime_profile_home: "{{ webmethods_install_dir }}/profiles/MWS_{{ mws_instance_name }}"
+_runtime_instance_home: "{{ webmethods_install_dir }}/MWS/server/{{ mws_instance_name }}"
+_runtime_instance_config_home: "{{ _runtime_instance_home }}/config"
+_custom_wrapper_file: "{{ _runtime_profile_home }}/configuration/custom_wrapper.conf"
+
+## db setting
+_config_db_connect_filepath: "{{ _runtime_instance_config_home }}/mws.db.xml"
+rvar_db_connect_settings: {}
+  # driver: com.wm.dd.jdbc.oracle.OracleDriver
+  # url:
+  # user:
+  # password:
+  # conns_min:
+  # conns_max:
+  # idle_timeout:
+  # cleanup_period:
+  # cache_statements:
+  # test_sql:

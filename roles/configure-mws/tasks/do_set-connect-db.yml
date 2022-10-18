@@ -1,0 +1,30 @@
+---
+
+- debug: var=rvar_db_connect_settings verbosity=3
+
+- name: re-init change flag to false
+  set_fact:
+    _operation_changed: false
+
+- name: fail if mandatory params not specified
+  fail: 
+    msg: "A mandatory param was not defined, cannot do anything."
+  when: item is not defined or item == ""
+  with_items:
+    - rvar_db_connect_settings
+    - rvar_db_connect_settings.driver
+    - rvar_db_connect_settings.url
+    - rvar_db_connect_settings.user
+    - rvar_db_connect_settings.password
+
+- name: Populate db connect file from template
+  template:
+    src: "mws.db.xml"
+    dest: "{{ _config_db_connect_filepath }}"
+  register: "_content_operation"
+
+- name: Set changed flag to true if any mutating operation did change
+  set_fact:
+    _operation_changed: "{{ _content_operation.changed }}"
+
+- debug: var=_operation_changed verbosity=2
