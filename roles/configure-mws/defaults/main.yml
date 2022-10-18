@@ -10,7 +10,12 @@ _custom_wrapper_file: "{{ _runtime_profile_home }}/configuration/custom_wrapper.
 ## db setting
 _config_db_connect_filepath: "{{ _runtime_instance_config_home }}/mws.db.xml"
 rvar_db_connect_settings: {}
+  # id:
+  # name:
+  # displayname:
+  # type: oracle
   # driver: com.wm.dd.jdbc.oracle.OracleDriver
+  # isdefault: true
   # url:
   # user:
   # password:
