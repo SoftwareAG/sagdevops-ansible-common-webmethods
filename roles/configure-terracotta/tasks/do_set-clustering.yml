@@ -34,6 +34,13 @@
       group: "{{ webmethods_group }}"
       mode: 0644
 
+  - name: set params in custom wrapper to match the tcconfig values
+    include_tasks: do_set-jvm-params.yml
+    vars:
+      rvar_jvm_params:
+        wrapper.app.parameter.13: "{{ hostvars[inventory_hostname][ rvar_tc_nodename_inventory_lookup_property | default('ansible_fqdn') ] }}"
+        wrapper.app.parameter.6: "{{ hostvars[inventory_hostname][ rvar_tc_nodename_inventory_lookup_property | default('ansible_fqdn') ] }}"
+
   - name: clear facts
     set_fact:
       tc_ips: ""
