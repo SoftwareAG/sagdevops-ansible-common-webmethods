@@ -4,8 +4,7 @@
         <messaging> 
             <integrationServer>
                 {% for wxconfig_messaging_wmalias in rvar_wxconfig_is_messaging_wmalias_list %}
-                <webMethodsMessagingSettings>
-                    <updateIfExists>{{ wxconfig_messaging_wmalias.updateIfExists | default() | bool | lower }}</updateIfExists>
+                <webMethodsMessagingSettings updateIfExists="true">
                 {% if wxconfig_messaging_wmalias is defined and wxconfig_messaging_wmalias.keys() | length > 0 %}
                     {% for k,v in wxconfig_messaging_wmalias.items() %}
                     <{{ k }}>{{ v }}</{{ k }}>
