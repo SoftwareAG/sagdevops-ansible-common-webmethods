@@ -3,7 +3,7 @@
     <autoConfig>
     {% if rvar_wxconfig_jdbc is defined %}
         <jdbc>
-        {% if rvar_wxconfig_jdbc.poolalias_list is defined %}
+        {% if rvar_wxconfig_jdbc.poolalias_list is defined and rvar_wxconfig_jdbc.keys() | length > 0 %}
             <poolAliasList>
                 {% for rvar_wxconfig_jdbc_poolalias in rvar_wxconfig_jdbc.poolalias_list %}
                 <poolAlias alias="{{ rvar_wxconfig_jdbc_poolalias.name }}" updateIfExists="{{ rvar_wxconfig_jdbc_poolalias.updateIfExists | default() | bool | lower }}" destroyOnShutdown="{{ rvar_wxconfig_jdbc_poolalias.destroyOnShutdown | default() | bool | lower }}">

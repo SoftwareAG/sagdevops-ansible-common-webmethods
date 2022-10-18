@@ -2,7 +2,7 @@
 <config>
      <wx.config.disableDelimiterParsing>true</wx.config.disableDelimiterParsing>
      <autoConfig>
-        {% if rvar_wxconfig_ldap is defined %}
+        {% if rvar_wxconfig_ldap is defined and rvar_wxconfig_ldap.keys() | length > 0 %}
         <ldap>
             <cache>
                 <numberOfUsers>{{ rvar_wxconfig_ldap.numberOfUsers | default('10',true) }}</numberOfUsers>

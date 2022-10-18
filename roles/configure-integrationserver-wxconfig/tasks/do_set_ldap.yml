@@ -17,4 +17,4 @@
         set_fact: 
           configure_integrationserver_wxconfig_set_ldap_changed: "{{ _wxconfig_template_operation_changed }}"
 
-    when: rvar_wxconfig_ldap is defined
+    when: rvar_wxconfig_ldap is defined and rvar_wxconfig_ldap.keys() | length > 0
