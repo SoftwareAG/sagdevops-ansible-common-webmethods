@@ -5,9 +5,6 @@
         <remoteServerList>
         {% for wxconfig_remoteserver in rvar_wxconfig_remoteservers_list %}
             <remoteServer alias="{{ wxconfig_remoteserver.alias | default() | bool | lower }}" updateIfExists="{{ wxconfig_remoteserver.updateIfExists | default() | bool | lower }}" destroyOnShutdown="{{ wxconfig_remoteserver.destroyOnShutdown | default() | bool | lower }}">
-            {% if wxconfig_remoteserver.properties is defined andwxconfig_remoteserver.properties.keys() | length > 0 %}
-                
-            {% endif %}
             </remoteServer>
         {% endfor %}
         </remoteServerList>
