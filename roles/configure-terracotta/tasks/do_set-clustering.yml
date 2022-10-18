@@ -19,7 +19,7 @@
     vars:
       inventory_pattern: "{{ rvar_tc_inventory_pattern }}"
       inventory_action: first_level_lookup
-      inventory_hosts_property: "ansible_fqdn"
+      inventory_hosts_property: "{{ rvar_tc_nodename_inventory_lookup_property | default('ansible_fqdn') }}"
 
   - name: Set tc_hostnames facts
     set_fact:
