@@ -12,6 +12,7 @@
   when: item is not defined or item == ""
   with_items:
     - rvar_db_connect_settings
+    - rvar_db_connect_settings.type
     - rvar_db_connect_settings.driver
     - rvar_db_connect_settings.url
     - rvar_db_connect_settings.user

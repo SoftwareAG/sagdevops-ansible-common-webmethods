@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><CONFIG>
-    <CONNECTION default="true" displayname="Default" id="1" name="default" type="oracle">
+    <CONNECTION default="{{ rvar_db_connect_settings.isdefault | default('true') | bool | lower }}" displayname="{{ rvar_db_connect_settings.displayname | default('Default') }}" id="{{ rvar_db_connect_settings.id | default('1') }}" name="{{ rvar_db_connect_settings.name | default('default') }}" type="{{ rvar_db_connect_settings.type }}">
         <SQLWORKERCLASS>com.webmethods.portal.service.sql.core.BaseSqlWorker</SQLWORKERCLASS>
         <CONNPROVIDERCLASS>com.webmethods.portal.service.sql.core.provider.pool.PooledConnectionProvider</CONNPROVIDERCLASS>
         <PARAMS>
