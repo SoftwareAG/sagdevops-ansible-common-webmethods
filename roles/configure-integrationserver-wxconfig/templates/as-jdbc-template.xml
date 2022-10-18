@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <autoConfig>
-    {% if rvar_wxconfig_jdbc is defined %}
+    {% if rvar_wxconfig_jdbc is defined and rvar_wxconfig_jdbc.keys() | length > 0 %}
         <jdbc>
         {% if rvar_wxconfig_jdbc.poolalias_list is defined and rvar_wxconfig_jdbc.keys() | length > 0 %}
             <poolAliasList>
