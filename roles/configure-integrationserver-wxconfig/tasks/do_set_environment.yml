@@ -1,0 +1,36 @@
+---
+
+  - debug: var=rvar_wxconfig_environments_current verbosity=3
+  - debug: var=rvar_wxconfig_environments_available_types verbosity=3
+
+  - name: Set changed flag to false if not defined
+    set_fact: 
+      configure_integrationserver_wxconfig_set_environments_changed: false
+    when: configure_integrationserver_wxconfig_set_environments_changed is not defined
+
+  - block:
+
+      - name: Make sure the wxconfig dir is there
+        file:
+          path: "{{ _wxconfig_environments_filepath | basedir }}"
+          state: directory
+
+      - name: Populate wxconfig env file
+        template:
+          src: wxconfig-environments.txt.j2
+          dest: "{{ _wxconfig_environments_filepath }}"
+        register: _wxconfig_operation
+
+      - name: Set changed flag to true if any mutating operation did change
+        set_fact: 
+          configure_integrationserver_wxconfig_set_environments_changed: true
+        when: _wxconfig_operation.changed == true
+
+    when: >
+      rvar_wxconfig_environments_current is defined and rvar_wxconfig_environments_current.keys()|length > 0 and
+      rvar_wxconfig_environments_available_types is defined and rvar_wxconfig_environments_available_types|length > 0
+
+  - name: Print the changed var
+    debug:
+      var: configure_integrationserver_wxconfig_set_environments_changed
+      verbosity: 2
