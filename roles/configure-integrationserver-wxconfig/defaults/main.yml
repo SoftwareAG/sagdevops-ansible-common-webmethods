@@ -13,7 +13,7 @@ _wxconfig_target_package_path: "{{ _runtime_instance_package_home }}/{{ rvar_wxc
 _wxconfig_target_package_config_path: "{{ _wxconfig_target_package_path }}/config"
 _wxconfig_encrypted_values_dir: "{{ _wxconfig_configs_dir }}/EncryptedValues"
 _wxconfig_license_path: "{{ _wxconfig_configs_dir }}/WxConfig_{{ wxconfig_version }}.license"
-_wxconfig_environments_filepath: "{{ _wxconfig_configs_dir }}/environments.cnf"
+_wxconfig_environments_filepath: "{{ _wxconfig_configs_dir }}/environment.cnf"
 
 ## group name represent the distinct ID for all the wxconfig files
 rvar_wxconfig_unique_groupname:
