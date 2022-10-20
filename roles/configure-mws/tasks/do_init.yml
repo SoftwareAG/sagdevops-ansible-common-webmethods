@@ -2,7 +2,7 @@
 
   - name: base executable
     set_fact:
-      command_to_exec: ['mws.sh']
+      command_to_exec: [ '{{ _runtime_mws_home }}/bin/mws.sh' ]
 
   - name: append instance param
     set_fact:
