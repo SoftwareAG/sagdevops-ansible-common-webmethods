@@ -1,14 +1,15 @@
 ---
 
-  - debug: var=_mws_command_params verbosity=3
+  - debug: var=_mws_command_dir verbosity=1
+  - debug: var=_mws_command_param_list verbosity=1
 
   - name: base executable
     set_fact:
-      command_to_exec: [ '{{ _runtime_mws_home }}/bin/mws.sh' ]
+      command_to_exec: [ 'mws.sh' ]
 
   - name: append instance params
     set_fact:
-      command_to_exec: "{{ command_to_exec }} + [ '{{ _mws_command_params | default([]) }}' ]"
+      command_to_exec: "{{ command_to_exec }} + {{ _mws_command_param_list | default([]) }}"
 
   - name: Print the command that we're going to run
     debug:
@@ -18,6 +19,7 @@
   - name: execute command
     command:
       argv: "{{ command_to_exec }}"
+      chdir: "{{ _mws_command_dir }}"
     register: cmd_result
 
   - name: Print the cmd_result to the console.
