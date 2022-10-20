@@ -1,6 +1,6 @@
 wx.config.environment.type={{ rvar_wxconfig_environments_current.type }}
-wx.config.environment.nameForUI={{ rvar_wxconfig_environments_current.nameForUI }}
-wx.config.environment.comment.text={{ rvar_wxconfig_environments_current.comment_text }}
+wx.config.environment.nameForUI={{ rvar_wxconfig_environments_current.nameForUI| default(rvar_wxconfig_environments_current.type) }}
+wx.config.environment.comment.text={{ rvar_wxconfig_environments_current.comment_text | default('Please click here to configure') }}
 wx.config.environment.comment.url={{ rvar_wxconfig_environments_current.comment_url | default('settingsEnvironment.dsp') }}
 wx.config.environment.css.fontSize={{ rvar_wxconfig_environments_current.css_fontSize | default('14pt') }}
 wx.config.environment.css.color.font={{ rvar_wxconfig_environments_current.css_fontColor | default('white') }}
