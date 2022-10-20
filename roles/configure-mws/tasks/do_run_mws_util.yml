@@ -5,7 +5,7 @@
 
   - name: base executable
     set_fact:
-      command_to_exec: [ 'mws.sh' ]
+      command_to_exec: [ './mws.sh' ]
 
   - name: append instance params
     set_fact:
