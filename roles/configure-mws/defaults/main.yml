@@ -2,8 +2,9 @@
 
 ## Config files
 mws_instance_name: "default"
+_runtime_mws_home: "{{ webmethods_install_dir }}/MWS"
 _runtime_profile_home: "{{ webmethods_install_dir }}/profiles/MWS_{{ mws_instance_name }}"
-_runtime_instance_home: "{{ webmethods_install_dir }}/MWS/server/{{ mws_instance_name }}"
+_runtime_instance_home: "{{ _runtime_mws_home }}/server/{{ mws_instance_name }}"
 _runtime_instance_config_home: "{{ _runtime_instance_home }}/config"
 _custom_wrapper_file: "{{ _runtime_profile_home }}/configuration/custom_wrapper.conf"
 
