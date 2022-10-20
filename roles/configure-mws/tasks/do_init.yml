@@ -1,30 +1,11 @@
 ---
 
-  - name: base executable
-    set_fact:
-      command_to_exec: [ '{{ _runtime_mws_home }}/bin/mws.sh' ]
+#  /opt/softwareag/MWS/bin/mws.sh -s default init as owcs_devops
 
-  - name: append instance param
-    set_fact:
-      command_to_exec: "{{ command_to_exec }} + [ '-s' ] + [ '{{ mws_instance_name }}' ]"
-
-  - name: append command
-    set_fact:
-      command_to_exec: "{{ command_to_exec }} + [ 'init' ]"
-    when: curl_wrapper_output_path is defined and curl_wrapper_output_path != ""
-
-  - name: Print the command that we're going to run
-    debug:
-      msg: "About to run: {{ command_to_exec|join(' ') }}"
-      verbosity: 1
-
-  - name: execute command
-    command:
-      argv: "{{ command_to_exec }}"
-    register: cmd_result
-    no_log: "{{ not ( disable_no_log | default(false,true) ) }}"
-
-  - name: Print the cmd_result to the console.
-    debug:
-      msg: "{{ cmd_result.stdout_lines | join('\n') }}"
-      verbosity: 1
+  - name: Include tasks
+    include_tasks: "do_run_mws_util.yml"
+    vars:
+      _mws_command_params:
+        - "-s"
+        - "{{ mws_instance_name }}"
+        - "init"
