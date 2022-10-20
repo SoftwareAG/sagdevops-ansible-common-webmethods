@@ -12,7 +12,7 @@
 
       - name: Make sure the wxconfig dir is there
         file:
-          path: "{{ _wxconfig_environments_filepath | basedir }}"
+          path: "{{ _wxconfig_environments_filepath | dirname }}"
           state: directory
 
       - name: Populate wxconfig env file
