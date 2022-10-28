@@ -1,7 +1,6 @@
 ---
 
-  - debug: var=_mws_command_dir verbosity=1
-  - debug: var=_mws_command_param_list verbosity=1
+  - debug: var=rvar_mws_command_param_list verbosity=1
 
   - name: base executable
     set_fact:
@@ -9,7 +8,7 @@
 
   - name: append instance params
     set_fact:
-      command_to_exec: "{{ command_to_exec }} + {{ _mws_command_param_list | default([]) }}"
+      command_to_exec: "{{ command_to_exec }} + {{ rvar_mws_command_param_list | default([]) }}"
 
   - name: Print the command that we're going to run
     debug:

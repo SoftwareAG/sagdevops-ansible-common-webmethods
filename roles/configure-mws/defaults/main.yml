@@ -8,6 +8,8 @@ _runtime_instance_home: "{{ _runtime_mws_home }}/server/{{ mws_instance_name }}"
 _runtime_instance_config_home: "{{ _runtime_instance_home }}/config"
 _custom_wrapper_file: "{{ _runtime_profile_home }}/configuration/custom_wrapper.conf"
 
+_mws_command_dir: "{{ _runtime_mws_home }}/bin"
+
 ## db setting
 _config_db_connect_filepath: "{{ _runtime_instance_config_home }}/mws.db.xml"
 rvar_db_connect_settings: {}

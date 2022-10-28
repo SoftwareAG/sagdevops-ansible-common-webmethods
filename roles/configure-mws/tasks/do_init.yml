@@ -5,8 +5,7 @@
   - name: Include tasks
     include_tasks: "do_run_mws_util.yml"
     vars:
-      _mws_command_dir: "{{ _runtime_mws_home }}/bin"
-      _mws_command_param_list:
+      rvar_mws_command_param_list:
         - "-s"
         - "{{ mws_instance_name }}"
         - "init"
