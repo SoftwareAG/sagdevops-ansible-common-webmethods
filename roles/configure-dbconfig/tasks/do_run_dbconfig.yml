@@ -1,0 +1,27 @@
+---
+
+  - debug: var=rvar_dbconfig_params_list verbosity=1
+
+  - name: base executable
+    set_fact:
+      command_to_exec: [ './dbConfigurator.sh' ]
+
+  - name: append command params
+    set_fact:
+      command_to_exec: "{{ command_to_exec }} + {{ rvar_dbconfig_params_list | default([]) }}"
+
+  - name: Print the command that we're going to run
+    debug:
+      msg: "About to run: {{ command_to_exec | join(' ') }}"
+      verbosity: 1
+
+  - name: execute command
+    command:
+      argv: "{{ command_to_exec }}"
+      chdir: "{{ _dbconfig_bin }}"
+    register: cmd_result
+
+  - name: Print the cmd_result to the console.
+    debug:
+      msg: "{{ cmd_result.stdout_lines | join('\n') }}"
+      verbosity: 1

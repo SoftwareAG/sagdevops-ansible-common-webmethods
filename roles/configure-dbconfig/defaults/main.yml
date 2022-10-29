@@ -1,0 +1,7 @@
+---
+
+## Config files
+_dbconfig_home: "{{ webmethods_install_dir }}/common/db"
+_dbconfig_bin: "{{ _dbconfig_home }}/bin"
+
+rvar_dbconfig_params_list: []
