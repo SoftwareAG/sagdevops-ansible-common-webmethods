@@ -1,4 +1,4 @@
-wx.config.environment.type={{ rvar_wxconfig_environments_current.type }}
+wx.config.environment.type={{ rvar_wxconfig_environments_current.type | trim | upper }}
 wx.config.environment.nameForUI={{ rvar_wxconfig_environments_current.nameForUI| default(rvar_wxconfig_environments_current.type) }}
 wx.config.environment.comment.text={{ rvar_wxconfig_environments_current.comment_text | default('Please click here to configure') }}
 wx.config.environment.comment.url={{ rvar_wxconfig_environments_current.comment_url | default('settingsEnvironment.dsp') }}
@@ -7,5 +7,5 @@ wx.config.environment.css.color.font={{ rvar_wxconfig_environments_current.css_f
 wx.config.environment.css.color.background={{ rvar_wxconfig_environments_current.css_backgroundColor | default('gray') }}
 
 {% for item in rvar_wxconfig_environments_available_types %}
-wx.config.environment.availableTypes={{ item | trim }}
+wx.config.environment.availableTypes={{ item | trim | upper }}
 {% endfor %}
