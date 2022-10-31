@@ -12,8 +12,8 @@
     with_items:
       - rvar_wxconfig_target_package_name
       - rvar_wxconfig_vars_environment
-      - rvar_wxconfig_vars_filename
       - rvar_wxconfig_vars_list
+      - rvar_wxconfig_unique_groupname
 
   - name: Check if main wxconfig controller file is there already
     stat:
@@ -26,6 +26,11 @@
     when: stat_wxconfig_enabled.stat.exists == false
 
   - block:
+
+      - name: set file name if not defined
+        set_fact: 
+          rvar_wxconfig_vars_filename: "vars_{{ rvar_wxconfig_vars_environment }}_{{ rvar_wxconfig_unique_groupname }}.cnf"
+        when: rvar_wxconfig_vars_filename is not defined or rvar_wxconfig_vars_filename | trim == ""
 
       - name: Create var file if it does not exist yet
         file:
