@@ -12,7 +12,7 @@
     with_items:
       - rvar_wxconfig_target_package_name
       - rvar_wxconfig_vars_environment
-      - rvar_wxconfig_vars_list
+      - rvar_wxconfig_vars_dict
       - rvar_wxconfig_unique_groupname
 
   - name: Check if main wxconfig controller file is there already
@@ -40,11 +40,11 @@
       - name: Populate var file with var values
         lineinfile:
           path: "{{ _wxconfig_target_package_config_path }}/{{ rvar_wxconfig_vars_filename }}"
-          regexp: "^{{ item }}"
-          insertafter: "^#{{ item }}"
-          line: "{{ item }}"
+          regexp: '^{{ item.key }}'
+          insertafter: '^#{{ item.key }}'
+          line: "{{ item.key }}={{ item.value }}"
         register: "_wxconfig_vars_operation"
-        with_items: "{{ rvar_wxconfig_vars_list }}"
+        with_dict: "{{ rvar_wxconfig_vars_dict }}"
 
       - name: Include this new config in the main controller file
         lineinfile:
@@ -73,7 +73,7 @@
           configure_integrationserver_wxconfig_set_package_vars_changed: true
         when: _wxconfig_vars_operation.changed == true or _wxconfig_controller_operation.changed == true
 
-    when: rvar_wxconfig_vars_list is defined and rvar_wxconfig_vars_list|length > 0
+    when: rvar_wxconfig_vars_dict is defined and rvar_wxconfig_vars_dict.keys()|length > 0
 
   - name: Print the changed var
     debug:
