@@ -1,5 +1,8 @@
 ---
 
+- debug:
+    msg: "Running prepare-wminstall"
+
 - name: '/etc/fstab: remove noexec opt for /tmp mount'
   lineinfile:
     path: /etc/fstab

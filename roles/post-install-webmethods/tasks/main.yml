@@ -1,5 +1,8 @@
 ---
 
+- debug:
+    msg: "Running post-install-webmethods"
+
 - name: Check if default wM post install as root script is present
   stat: 
     path: "{{ postinstall_scriptfile }}"

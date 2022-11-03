@@ -2,7 +2,7 @@
 
 - name: Print the params
   debug:
-    msg: "Running command {{ product_command | default('undefined') }} for product {{ product_name | default('undefined') }} and instance name {{ product_instance_name | default('undefined') }}"
+    msg: "Running command-webmethods with command {{ product_command | default('undefined') }} for product {{ product_name | default('undefined') }} and instance name {{ product_instance_name | default('undefined') }}"
 
 - name: fail if product_name not specified
   fail: 

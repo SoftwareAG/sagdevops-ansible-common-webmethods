@@ -1,4 +1,7 @@
 ---
+  
+  - debug:
+      msg: "Running install-cce"
 
 ### here we could create the steps to re-install cce if force = true
   - name: set facts

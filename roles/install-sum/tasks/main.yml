@@ -1,5 +1,8 @@
 ---
 
+  - debug:
+      msg: "Running install-sum"
+
   - debug: var=rvar_install_sum_descriptor verbosity=3
 
   - name: fail if mandatory params not specified

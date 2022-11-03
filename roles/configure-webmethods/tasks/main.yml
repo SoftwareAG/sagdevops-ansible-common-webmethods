@@ -2,7 +2,7 @@
 
 - name: Print the params
   debug:
-    msg: "Running with action {{ generic_configs_action | default('undefined') }}"
+    msg: "Running configure-webmethods with action {{ generic_configs_action | default('undefined') }}"
 
 - name: fail if generic_configs_action not specified
   fail: 
